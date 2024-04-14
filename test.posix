@@ -1,0 +1,15 @@
+    1 kvm_trng_call: int (struct kvm_vcpu *vcpu), <arch/arm64/kvm/trng.c 51>
+    2     smccc_get_function: <>
+    3     smccc_get_arg1: <>
+    4     smccc_set_retval: <>
+    5     le32_to_cpu: <>
+    6     kvm_trng_do_rnd: int (struct kvm_vcpu *vcpu, int size), <arch/arm64/kvm/trng.c 24>
+    7         DECLARE_BITMAP: <>
+    8         smccc_get_arg1: <>
+    9         smccc_set_retval: <>
+   10         DIV_ROUND_UP: <>
+   11         get_random_long: <>
+   12         bitmap_clear: <>
+   13         lower_32_bits: <>
+   14         upper_32_bits: <>
+   15         memzero_explicit: <>

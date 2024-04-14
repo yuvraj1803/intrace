@@ -1,0 +1,1038 @@
+// subgraph node: kvm_init
+// subgraph edge: kvm_init->pr_err
+// subgraph node: pr_err
+// subgraph edge: kvm_init->WARN_ON_ONCE
+// subgraph node: WARN_ON_ONCE
+// subgraph edge: kvm_init->for_each_possible_cpu
+// subgraph node: for_each_possible_cpu
+// subgraph edge: kvm_init->per_cpu
+// subgraph node: per_cpu
+// subgraph edge: kvm_init->cpuhp_setup_state_nocalls
+// subgraph node: cpuhp_setup_state_nocalls
+// subgraph edge: kvm_init->kvm_online_cpu
+// subgraph node: kvm_online_cpu
+// subgraph edge: kvm_online_cpu->mutex_lock
+// subgraph node: mutex_lock
+// subgraph edge: kvm_online_cpu->mutex_unlock
+// subgraph node: mutex_unlock
+// subgraph edge: kvm_init->kvm_offline_cpu
+// subgraph node: kvm_offline_cpu
+// subgraph edge: kvm_offline_cpu->mutex_lock
+// subgraph edge: kvm_offline_cpu->mutex_unlock
+// subgraph edge: kvm_offline_cpu->hardware_disable_nolock
+// subgraph node: hardware_disable_nolock
+// subgraph edge: hardware_disable_nolock->kvm_arch_hardware_disable
+// subgraph node: kvm_arch_hardware_disable
+// subgraph edge: kvm_arch_hardware_disable->is_protected_kvm_enabled
+// subgraph node: is_protected_kvm_enabled
+// subgraph edge: kvm_arch_hardware_disable->cpu_hyp_uninit
+// subgraph node: cpu_hyp_uninit
+// subgraph edge: cpu_hyp_uninit->cpu_hyp_reset
+// subgraph node: cpu_hyp_reset
+// subgraph edge: cpu_hyp_reset->is_kernel_in_hyp_mode
+// subgraph node: is_kernel_in_hyp_mode
+// subgraph edge: kvm_arch_hardware_disable->kvm_timer_cpu_down
+// subgraph node: kvm_timer_cpu_down
+// subgraph edge: kvm_timer_cpu_down->disable_percpu_irq
+// subgraph node: disable_percpu_irq
+// subgraph edge: kvm_arch_hardware_disable->kvm_vgic_cpu_down
+// subgraph node: kvm_vgic_cpu_down
+// subgraph edge: kvm_init->register_syscore_ops
+// subgraph node: register_syscore_ops
+// subgraph edge: kvm_init->kmem_cache_create_usercopy
+// subgraph node: kmem_cache_create_usercopy
+// subgraph edge: kvm_init->offsetof
+// subgraph node: offsetof
+// subgraph edge: kvm_init->offsetofend
+// subgraph node: offsetofend
+// subgraph edge: kvm_init->alloc_cpumask_var_node
+// subgraph node: alloc_cpumask_var_node
+// subgraph edge: kvm_init->cpu_to_node
+// subgraph node: cpu_to_node
+// subgraph edge: kvm_init->kvm_irqfd_init
+// subgraph node: kvm_irqfd_init
+// subgraph edge: kvm_irqfd_init->alloc_workqueue
+// subgraph node: alloc_workqueue
+// subgraph edge: kvm_init->kvm_async_pf_init
+// subgraph node: kvm_async_pf_init
+// subgraph edge: kvm_async_pf_init->KMEM_CACHE
+// subgraph node: KMEM_CACHE
+// subgraph edge: kvm_init->kvm_sched_in
+// subgraph node: kvm_sched_in
+// subgraph edge: kvm_sched_in->WRITE_ONCE
+// subgraph node: WRITE_ONCE
+// subgraph edge: kvm_sched_in->kvm_arch_vcpu_load
+// subgraph node: kvm_arch_vcpu_load
+// subgraph edge: kvm_arch_vcpu_load->has_vhe
+// subgraph node: has_vhe
+// subgraph edge: kvm_arch_vcpu_load->kvm_call_hyp
+// subgraph node: kvm_call_hyp
+// subgraph edge: kvm_arch_vcpu_load->kvm_vcpu_pmu_restore_guest
+// subgraph node: kvm_vcpu_pmu_restore_guest
+// subgraph edge: kvm_vcpu_pmu_restore_guest->preempt_disable
+// subgraph node: preempt_disable
+// subgraph edge: kvm_vcpu_pmu_restore_guest->preempt_enable
+// subgraph node: preempt_enable
+// subgraph edge: kvm_vcpu_pmu_restore_guest->has_vhe
+// subgraph edge: kvm_vcpu_pmu_restore_guest->kvm_arm_support_pmu_v3
+// subgraph node: kvm_arm_support_pmu_v3
+// subgraph edge: kvm_vcpu_pmu_restore_guest->kvm_get_pmu_events
+// subgraph node: kvm_get_pmu_events
+// subgraph edge: kvm_get_pmu_events->this_cpu_ptr
+// subgraph node: this_cpu_ptr
+// subgraph edge: kvm_vcpu_pmu_restore_guest->kvm_vcpu_pmu_enable_el0
+// subgraph node: kvm_vcpu_pmu_enable_el0
+// subgraph edge: kvm_vcpu_pmu_enable_el0->for_each_set_bit
+// subgraph node: for_each_set_bit
+// subgraph edge: kvm_vcpu_pmu_enable_el0->kvm_vcpu_pmu_read_evtype_direct
+// subgraph node: kvm_vcpu_pmu_read_evtype_direct
+// subgraph edge: kvm_vcpu_pmu_read_evtype_direct->WARN_ON
+// subgraph node: WARN_ON
+// subgraph edge: kvm_vcpu_pmu_read_evtype_direct->read_sysreg
+// subgraph node: read_sysreg
+// subgraph edge: kvm_vcpu_pmu_read_evtype_direct->PMEVTYPER_CASES
+// subgraph node: PMEVTYPER_CASES
+// subgraph edge: kvm_vcpu_pmu_enable_el0->kvm_vcpu_pmu_write_evtype_direct
+// subgraph node: kvm_vcpu_pmu_write_evtype_direct
+// subgraph edge: kvm_vcpu_pmu_write_evtype_direct->WARN_ON
+// subgraph edge: kvm_vcpu_pmu_write_evtype_direct->PMEVTYPER_CASES
+// subgraph edge: kvm_vcpu_pmu_write_evtype_direct->write_sysreg
+// subgraph node: write_sysreg
+// subgraph edge: kvm_vcpu_pmu_restore_guest->kvm_vcpu_pmu_disable_el0
+// subgraph node: kvm_vcpu_pmu_disable_el0
+// subgraph edge: kvm_vcpu_pmu_disable_el0->for_each_set_bit
+// subgraph edge: kvm_vcpu_pmu_disable_el0->kvm_vcpu_pmu_read_evtype_direct
+// subgraph edge: kvm_vcpu_pmu_disable_el0->kvm_vcpu_pmu_write_evtype_direct
+// subgraph edge: kvm_arch_vcpu_load->kvm_make_request
+// subgraph node: kvm_make_request
+// subgraph edge: kvm_arch_vcpu_load->this_cpu_ptr
+// subgraph edge: kvm_arch_vcpu_load->kvm_vgic_load
+// subgraph node: kvm_vgic_load
+// subgraph edge: kvm_arch_vcpu_load->kvm_timer_vcpu_load
+// subgraph node: kvm_timer_vcpu_load
+// subgraph edge: kvm_timer_vcpu_load->vcpu_has_nv
+// subgraph node: vcpu_has_nv
+// subgraph edge: kvm_timer_vcpu_load->get_timer_map
+// subgraph node: get_timer_map
+// subgraph edge: get_timer_map->vcpu_has_nv
+// subgraph edge: get_timer_map->is_hyp_ctxt
+// subgraph node: is_hyp_ctxt
+// subgraph edge: get_timer_map->vcpu_hvtimer
+// subgraph node: vcpu_hvtimer
+// subgraph edge: get_timer_map->vcpu_hptimer
+// subgraph node: vcpu_hptimer
+// subgraph edge: get_timer_map->vcpu_vtimer
+// subgraph node: vcpu_vtimer
+// subgraph edge: get_timer_map->vcpu_ptimer
+// subgraph node: vcpu_ptimer
+// subgraph edge: get_timer_map->has_vhe
+// subgraph edge: get_timer_map->trace_kvm_get_timer_map
+// subgraph node: trace_kvm_get_timer_map
+// subgraph edge: kvm_timer_vcpu_load->timer_emulate
+// subgraph node: timer_emulate
+// subgraph edge: timer_emulate->bool
+// subgraph node: bool
+// subgraph edge: timer_emulate->kvm_timer_should_fire
+// subgraph node: kvm_timer_should_fire
+// subgraph edge: kvm_timer_should_fire->kvm_phys_timer_read
+// subgraph node: kvm_phys_timer_read
+// subgraph edge: kvm_timer_should_fire->timer_get_offset
+// subgraph node: timer_get_offset
+// subgraph edge: kvm_timer_should_fire->arch_timer_ctx_index
+// subgraph node: arch_timer_ctx_index
+// subgraph edge: kvm_timer_should_fire->kvm_timer_irq_can_fire
+// subgraph node: kvm_timer_irq_can_fire
+// subgraph edge: kvm_timer_irq_can_fire->WARN_ON
+// subgraph edge: kvm_timer_irq_can_fire->timer_get_ctl
+// subgraph node: timer_get_ctl
+// subgraph edge: timer_get_ctl->arch_timer_ctx_index
+// subgraph edge: timer_get_ctl->WARN_ON
+// subgraph edge: kvm_timer_should_fire->read_sysreg_el0
+// subgraph node: read_sysreg_el0
+// subgraph edge: kvm_timer_should_fire->timer_get_cval
+// subgraph node: timer_get_cval
+// subgraph edge: timer_get_cval->arch_timer_ctx_index
+// subgraph edge: timer_get_cval->WARN_ON
+// subgraph edge: timer_emulate->trace_kvm_timer_emulate
+// subgraph node: trace_kvm_timer_emulate
+// subgraph edge: timer_emulate->kvm_timer_update_irq
+// subgraph node: kvm_timer_update_irq
+// subgraph edge: kvm_timer_update_irq->WARN_ON
+// subgraph edge: kvm_timer_update_irq->trace_kvm_timer_update_irq
+// subgraph node: trace_kvm_timer_update_irq
+// subgraph edge: kvm_timer_update_irq->timer_irq
+// subgraph node: timer_irq
+// subgraph edge: kvm_timer_update_irq->userspace_irqchip
+// subgraph node: userspace_irqchip
+// subgraph edge: userspace_irqchip->static_branch_unlikely
+// subgraph node: static_branch_unlikely
+// subgraph edge: userspace_irqchip->unlikely
+// subgraph node: unlikely
+// subgraph edge: userspace_irqchip->irqchip_in_kernel
+// subgraph node: irqchip_in_kernel
+// subgraph edge: kvm_timer_update_irq->kvm_vgic_inject_irq
+// subgraph node: kvm_vgic_inject_irq
+// subgraph edge: timer_emulate->kvm_timer_irq_can_fire
+// subgraph edge: timer_emulate->soft_timer_start
+// subgraph node: soft_timer_start
+// subgraph edge: soft_timer_start->hrtimer_start
+// subgraph node: hrtimer_start
+// subgraph edge: soft_timer_start->ktime_add_ns
+// subgraph node: ktime_add_ns
+// subgraph edge: soft_timer_start->ktime_get
+// subgraph node: ktime_get
+// subgraph edge: timer_emulate->kvm_timer_compute_delta
+// subgraph node: kvm_timer_compute_delta
+// subgraph edge: kvm_timer_compute_delta->timer_get_cval
+// subgraph edge: kvm_timer_compute_delta->kvm_counter_compute_delta
+// subgraph node: kvm_counter_compute_delta
+// subgraph edge: kvm_counter_compute_delta->kvm_phys_timer_read
+// subgraph edge: kvm_counter_compute_delta->timer_get_offset
+// subgraph edge: kvm_counter_compute_delta->cyclecounter_cyc2ns
+// subgraph node: cyclecounter_cyc2ns
+// subgraph edge: kvm_timer_vcpu_load->timer_restore_state
+// subgraph node: timer_restore_state
+// subgraph edge: timer_restore_state->BUG
+// subgraph node: BUG
+// subgraph edge: timer_restore_state->timer_get_offset
+// subgraph edge: timer_restore_state->arch_timer_ctx_index
+// subgraph edge: timer_restore_state->timer_get_cval
+// subgraph edge: timer_restore_state->timer_get_ctl
+// subgraph edge: timer_restore_state->vcpu_timer
+// subgraph node: vcpu_timer
+// subgraph edge: timer_restore_state->local_irq_save
+// subgraph node: local_irq_save
+// subgraph edge: timer_restore_state->write_sysreg_el0
+// subgraph node: write_sysreg_el0
+// subgraph edge: timer_restore_state->isb
+// subgraph node: isb
+// subgraph edge: timer_restore_state->set_cntvoff
+// subgraph node: set_cntvoff
+// subgraph edge: set_cntvoff->kvm_call_hyp
+// subgraph edge: timer_restore_state->set_cntpoff
+// subgraph node: set_cntpoff
+// subgraph edge: set_cntpoff->has_cntpoff
+// subgraph node: has_cntpoff
+// subgraph edge: set_cntpoff->write_sysreg_s
+// subgraph node: write_sysreg_s
+// subgraph edge: timer_restore_state->local_irq_restore
+// subgraph node: local_irq_restore
+// subgraph edge: timer_restore_state->trace_kvm_timer_restore_state
+// subgraph node: trace_kvm_timer_restore_state
+// subgraph edge: kvm_timer_vcpu_load->unlikely
+// subgraph edge: kvm_timer_vcpu_load->vcpu_timer
+// subgraph edge: kvm_timer_vcpu_load->static_branch_likely
+// subgraph node: static_branch_likely
+// subgraph edge: kvm_timer_vcpu_load->kvm_timer_vcpu_load_nested_switch
+// subgraph node: kvm_timer_vcpu_load_nested_switch
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->vcpu_hvtimer
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->timer_irq
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->irqchip_in_kernel
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->vcpu_el2_e2h_is_set
+// subgraph node: vcpu_el2_e2h_is_set
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->WARN_ON_ONCE
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->kvm_vgic_get_map
+// subgraph node: kvm_vgic_get_map
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->kvm_vgic_unmap_phys_irq
+// subgraph node: kvm_vgic_unmap_phys_irq
+// subgraph edge: kvm_timer_vcpu_load_nested_switch->kvm_vgic_map_phys_irq
+// subgraph node: kvm_vgic_map_phys_irq
+// subgraph edge: kvm_timer_vcpu_load->kvm_timer_vcpu_load_gic
+// subgraph node: kvm_timer_vcpu_load_gic
+// subgraph edge: kvm_timer_vcpu_load_gic->bool
+// subgraph edge: kvm_timer_vcpu_load_gic->kvm_timer_should_fire
+// subgraph edge: kvm_timer_vcpu_load_gic->kvm_timer_update_irq
+// subgraph edge: kvm_timer_vcpu_load_gic->timer_irq
+// subgraph edge: kvm_timer_vcpu_load_gic->irqchip_in_kernel
+// subgraph edge: kvm_timer_vcpu_load_gic->kvm_vgic_map_is_active
+// subgraph node: kvm_vgic_map_is_active
+// subgraph edge: kvm_timer_vcpu_load_gic->set_timer_irq_phys_active
+// subgraph node: set_timer_irq_phys_active
+// subgraph edge: set_timer_irq_phys_active->WARN_ON
+// subgraph edge: set_timer_irq_phys_active->irq_set_irqchip_state
+// subgraph node: irq_set_irqchip_state
+// subgraph edge: kvm_timer_vcpu_load->kvm_timer_vcpu_load_nogic
+// subgraph node: kvm_timer_vcpu_load_nogic
+// subgraph edge: kvm_timer_vcpu_load_nogic->vcpu_vtimer
+// subgraph edge: kvm_timer_vcpu_load_nogic->kvm_timer_should_fire
+// subgraph edge: kvm_timer_vcpu_load_nogic->kvm_timer_update_irq
+// subgraph edge: kvm_timer_vcpu_load_nogic->disable_percpu_irq
+// subgraph edge: kvm_timer_vcpu_load_nogic->enable_percpu_irq
+// subgraph node: enable_percpu_irq
+// subgraph edge: kvm_timer_vcpu_load->kvm_timer_unblocking
+// subgraph node: kvm_timer_unblocking
+// subgraph edge: kvm_timer_unblocking->soft_timer_cancel
+// subgraph node: soft_timer_cancel
+// subgraph edge: soft_timer_cancel->hrtimer_cancel
+// subgraph node: hrtimer_cancel
+// subgraph edge: kvm_timer_unblocking->vcpu_timer
+// subgraph edge: kvm_timer_vcpu_load->timer_set_traps
+// subgraph node: timer_set_traps
+// subgraph edge: timer_set_traps->vcpu_has_nv
+// subgraph edge: timer_set_traps->is_hyp_ctxt
+// subgraph edge: timer_set_traps->has_vhe
+// subgraph edge: timer_set_traps->timer_get_offset
+// subgraph edge: timer_set_traps->bool
+// subgraph edge: timer_set_traps->has_cntpoff
+// subgraph edge: timer_set_traps->vcpu_el2_e2h_is_set
+// subgraph edge: timer_set_traps->sysreg_clear_set
+// subgraph node: sysreg_clear_set
+// subgraph edge: timer_set_traps->assign_clear_set_bit
+// subgraph node: assign_clear_set_bit
+// subgraph edge: kvm_arch_vcpu_load->kvm_vcpu_load_vhe
+// subgraph node: kvm_vcpu_load_vhe
+// subgraph edge: kvm_arch_vcpu_load->kvm_arch_vcpu_load_fp
+// subgraph node: kvm_arch_vcpu_load_fp
+// subgraph edge: kvm_arch_vcpu_load_fp->BUG_ON
+// subgraph node: BUG_ON
+// subgraph edge: kvm_arch_vcpu_load_fp->read_sysreg
+// subgraph edge: kvm_arch_vcpu_load_fp->vcpu_clear_flag
+// subgraph node: vcpu_clear_flag
+// subgraph edge: kvm_arch_vcpu_load_fp->system_supports_sme
+// subgraph node: system_supports_sme
+// subgraph edge: kvm_arch_vcpu_load_fp->fpsimd_save_and_flush_cpu_state
+// subgraph node: fpsimd_save_and_flush_cpu_state
+// subgraph edge: kvm_arch_vcpu_load_fp->system_supports_fpsimd
+// subgraph node: system_supports_fpsimd
+// subgraph edge: kvm_arch_vcpu_load_fp->fpsimd_kvm_prepare
+// subgraph node: fpsimd_kvm_prepare
+// subgraph edge: kvm_arch_vcpu_load_fp->vcpu_set_flag
+// subgraph node: vcpu_set_flag
+// subgraph edge: kvm_arch_vcpu_load_fp->read_sysreg_s
+// subgraph node: read_sysreg_s
+// subgraph edge: kvm_arch_vcpu_load->kvm_arm_is_pvtime_enabled
+// subgraph node: kvm_arm_is_pvtime_enabled
+// subgraph edge: kvm_arch_vcpu_load->single_task_running
+// subgraph node: single_task_running
+// subgraph edge: kvm_arch_vcpu_load->vcpu_clear_wfx_traps
+// subgraph node: vcpu_clear_wfx_traps
+// subgraph edge: kvm_arch_vcpu_load->vcpu_set_wfx_traps
+// subgraph node: vcpu_set_wfx_traps
+// subgraph edge: kvm_arch_vcpu_load->vcpu_has_ptrauth
+// subgraph node: vcpu_has_ptrauth
+// subgraph edge: kvm_arch_vcpu_load->vcpu_ptrauth_disable
+// subgraph node: vcpu_ptrauth_disable
+// subgraph edge: kvm_arch_vcpu_load->kvm_arch_vcpu_load_debug_state_flags
+// subgraph node: kvm_arch_vcpu_load_debug_state_flags
+// subgraph edge: kvm_arch_vcpu_load_debug_state_flags->has_vhe
+// subgraph edge: kvm_arch_vcpu_load_debug_state_flags->read_sysreg
+// subgraph edge: kvm_arch_vcpu_load_debug_state_flags->BIT
+// subgraph node: BIT
+// subgraph edge: kvm_arch_vcpu_load_debug_state_flags->vcpu_set_flag
+// subgraph edge: kvm_arch_vcpu_load_debug_state_flags->read_sysreg_s
+// subgraph edge: kvm_arch_vcpu_load_debug_state_flags->cpuid_feature_extract_unsigned_field
+// subgraph node: cpuid_feature_extract_unsigned_field
+// subgraph edge: kvm_arch_vcpu_load->cpumask_test_cpu
+// subgraph node: cpumask_test_cpu
+// subgraph edge: kvm_arch_vcpu_load->vcpu_set_on_unsupported_cpu
+// subgraph node: vcpu_set_on_unsupported_cpu
+// subgraph edge: kvm_sched_in->preempt_notifier_to_vcpu
+// subgraph node: preempt_notifier_to_vcpu
+// subgraph edge: preempt_notifier_to_vcpu->container_of
+// subgraph node: container_of
+// subgraph edge: kvm_sched_in->kvm_arch_sched_in
+// subgraph node: kvm_arch_sched_in
+// subgraph edge: kvm_init->kvm_sched_out
+// subgraph node: kvm_sched_out
+// subgraph edge: kvm_sched_out->WRITE_ONCE
+// subgraph edge: kvm_sched_out->kvm_arch_vcpu_put
+// subgraph node: kvm_arch_vcpu_put
+// subgraph edge: kvm_arch_vcpu_put->has_vhe
+// subgraph edge: kvm_arch_vcpu_put->kvm_arch_vcpu_put_debug_state_flags
+// subgraph node: kvm_arch_vcpu_put_debug_state_flags
+// subgraph edge: kvm_arch_vcpu_put_debug_state_flags->vcpu_clear_flag
+// subgraph edge: kvm_arch_vcpu_put->kvm_arch_vcpu_put_fp
+// subgraph node: kvm_arch_vcpu_put_fp
+// subgraph edge: kvm_arch_vcpu_put_fp->vcpu_has_sve
+// subgraph node: vcpu_has_sve
+// subgraph edge: kvm_arch_vcpu_put_fp->vcpu_get_flag
+// subgraph node: vcpu_get_flag
+// subgraph edge: kvm_arch_vcpu_put_fp->has_vhe
+// subgraph edge: kvm_arch_vcpu_put_fp->local_irq_save
+// subgraph edge: kvm_arch_vcpu_put_fp->isb
+// subgraph edge: kvm_arch_vcpu_put_fp->local_irq_restore
+// subgraph edge: kvm_arch_vcpu_put_fp->system_supports_sme
+// subgraph edge: kvm_arch_vcpu_put_fp->sysreg_clear_set
+// subgraph edge: kvm_arch_vcpu_put_fp->read_sysreg_el1
+// subgraph node: read_sysreg_el1
+// subgraph edge: kvm_arch_vcpu_put_fp->sve_cond_update_zcr_vq
+// subgraph node: sve_cond_update_zcr_vq
+// subgraph edge: kvm_arch_vcpu_put_fp->vcpu_sve_max_vq
+// subgraph node: vcpu_sve_max_vq
+// subgraph edge: kvm_arch_vcpu_put_fp->fpsimd_save_and_flush_cpu_state
+// subgraph edge: kvm_arch_vcpu_put_fp->system_supports_sve
+// subgraph node: system_supports_sve
+// subgraph edge: kvm_arch_vcpu_put->kvm_vcpu_put_vhe
+// subgraph node: kvm_vcpu_put_vhe
+// subgraph edge: kvm_arch_vcpu_put->kvm_timer_vcpu_put
+// subgraph node: kvm_timer_vcpu_put
+// subgraph edge: kvm_timer_vcpu_put->get_timer_map
+// subgraph edge: kvm_timer_vcpu_put->soft_timer_cancel
+// subgraph edge: kvm_timer_vcpu_put->timer_save_state
+// subgraph node: timer_save_state
+// subgraph edge: timer_save_state->BUG
+// subgraph edge: timer_save_state->timer_set_cval
+// subgraph node: timer_set_cval
+// subgraph edge: timer_set_cval->arch_timer_ctx_index
+// subgraph edge: timer_set_cval->WARN_ON
+// subgraph edge: timer_save_state->timer_get_offset
+// subgraph edge: timer_save_state->timer_set_ctl
+// subgraph node: timer_set_ctl
+// subgraph edge: timer_set_ctl->arch_timer_ctx_index
+// subgraph edge: timer_set_ctl->WARN_ON
+// subgraph edge: timer_save_state->arch_timer_ctx_index
+// subgraph edge: timer_save_state->read_sysreg_el0
+// subgraph edge: timer_save_state->vcpu_timer
+// subgraph edge: timer_save_state->local_irq_save
+// subgraph edge: timer_save_state->write_sysreg_el0
+// subgraph edge: timer_save_state->isb
+// subgraph edge: timer_save_state->set_cntvoff
+// subgraph edge: timer_save_state->set_cntpoff
+// subgraph edge: timer_save_state->trace_kvm_timer_save_state
+// subgraph node: trace_kvm_timer_save_state
+// subgraph edge: timer_save_state->local_irq_restore
+// subgraph edge: kvm_timer_vcpu_put->unlikely
+// subgraph edge: kvm_timer_vcpu_put->vcpu_timer
+// subgraph edge: kvm_timer_vcpu_put->kvm_vcpu_is_blocking
+// subgraph node: kvm_vcpu_is_blocking
+// subgraph edge: kvm_timer_vcpu_put->kvm_timer_blocking
+// subgraph node: kvm_timer_blocking
+// subgraph edge: kvm_timer_blocking->get_timer_map
+// subgraph edge: kvm_timer_blocking->kvm_timer_irq_can_fire
+// subgraph edge: kvm_timer_blocking->soft_timer_start
+// subgraph edge: kvm_timer_blocking->vcpu_timer
+// subgraph edge: kvm_timer_blocking->vcpu_has_wfit_active
+// subgraph node: vcpu_has_wfit_active
+// subgraph edge: vcpu_has_wfit_active->vcpu_get_flag
+// subgraph edge: vcpu_has_wfit_active->cpus_have_final_cap
+// subgraph node: cpus_have_final_cap
+// subgraph edge: kvm_timer_blocking->kvm_timer_earliest_exp
+// subgraph node: kvm_timer_earliest_exp
+// subgraph edge: kvm_timer_earliest_exp->kvm_timer_irq_can_fire
+// subgraph edge: kvm_timer_earliest_exp->kvm_timer_compute_delta
+// subgraph edge: kvm_timer_earliest_exp->min
+// subgraph node: min
+// subgraph edge: kvm_timer_earliest_exp->vcpu_has_wfit_active
+// subgraph edge: kvm_timer_earliest_exp->nr_timers
+// subgraph node: nr_timers
+// subgraph edge: nr_timers->vcpu_has_nv
+// subgraph edge: kvm_timer_earliest_exp->WARN
+// subgraph node: WARN
+// subgraph edge: kvm_timer_earliest_exp->wfit_delay_ns
+// subgraph node: wfit_delay_ns
+// subgraph edge: wfit_delay_ns->vcpu_has_nv
+// subgraph edge: wfit_delay_ns->is_hyp_ctxt
+// subgraph edge: wfit_delay_ns->vcpu_hvtimer
+// subgraph edge: wfit_delay_ns->vcpu_vtimer
+// subgraph edge: wfit_delay_ns->kvm_counter_compute_delta
+// subgraph edge: wfit_delay_ns->vcpu_get_reg
+// subgraph node: vcpu_get_reg
+// subgraph edge: wfit_delay_ns->kvm_vcpu_sys_get_rt
+// subgraph node: kvm_vcpu_sys_get_rt
+// subgraph edge: kvm_arch_vcpu_put->kvm_vgic_put
+// subgraph node: kvm_vgic_put
+// subgraph edge: kvm_arch_vcpu_put->kvm_vcpu_pmu_restore_host
+// subgraph node: kvm_vcpu_pmu_restore_host
+// subgraph edge: kvm_vcpu_pmu_restore_host->has_vhe
+// subgraph edge: kvm_vcpu_pmu_restore_host->kvm_arm_support_pmu_v3
+// subgraph edge: kvm_vcpu_pmu_restore_host->kvm_get_pmu_events
+// subgraph edge: kvm_vcpu_pmu_restore_host->kvm_vcpu_pmu_enable_el0
+// subgraph edge: kvm_vcpu_pmu_restore_host->kvm_vcpu_pmu_disable_el0
+// subgraph edge: kvm_arch_vcpu_put->kvm_arm_vmid_clear_active
+// subgraph node: kvm_arm_vmid_clear_active
+// subgraph edge: kvm_arm_vmid_clear_active->this_cpu_ptr
+// subgraph edge: kvm_arm_vmid_clear_active->atomic64_set
+// subgraph node: atomic64_set
+// subgraph edge: kvm_arch_vcpu_put->vcpu_clear_on_unsupported_cpu
+// subgraph node: vcpu_clear_on_unsupported_cpu
+// subgraph edge: kvm_sched_out->preempt_notifier_to_vcpu
+// subgraph edge: kvm_init->kvm_init_debug
+// subgraph node: kvm_init_debug
+// subgraph edge: kvm_init_debug->debugfs_create_dir
+// subgraph node: debugfs_create_dir
+// subgraph edge: kvm_init_debug->kvm_stats_debugfs_mode
+// subgraph node: kvm_stats_debugfs_mode
+// subgraph edge: kvm_init_debug->debugfs_create_file
+// subgraph node: debugfs_create_file
+// subgraph edge: kvm_init->kvm_vfio_ops_init
+// subgraph node: kvm_vfio_ops_init
+// subgraph edge: kvm_vfio_ops_init->kvm_register_device_ops
+// subgraph node: kvm_register_device_ops
+// subgraph edge: kvm_register_device_ops->ARRAY_SIZE
+// subgraph node: ARRAY_SIZE
+// subgraph edge: kvm_init->misc_register
+// subgraph node: misc_register
+// subgraph edge: kvm_init->kvm_vfio_ops_exit
+// subgraph node: kvm_vfio_ops_exit
+// subgraph edge: kvm_vfio_ops_exit->kvm_unregister_device_ops
+// subgraph node: kvm_unregister_device_ops
+// subgraph edge: kvm_init->kvm_async_pf_deinit
+// subgraph node: kvm_async_pf_deinit
+// subgraph edge: kvm_async_pf_deinit->kmem_cache_destroy
+// subgraph node: kmem_cache_destroy
+// subgraph edge: kvm_init->kvm_irqfd_exit
+// subgraph node: kvm_irqfd_exit
+// subgraph edge: kvm_irqfd_exit->destroy_workqueue
+// subgraph node: destroy_workqueue
+// subgraph edge: kvm_init->free_cpumask_var
+// subgraph node: free_cpumask_var
+// subgraph edge: kvm_init->kmem_cache_destroy
+// subgraph edge: kvm_init->unregister_syscore_ops
+// subgraph node: unregister_syscore_ops
+// subgraph edge: kvm_init->cpuhp_remove_state_nocalls
+// subgraph node: cpuhp_remove_state_nocalls
+digraph gvpr_result {
+	node [shape=box];
+	vcpu_has_sve	[label="vcpu_has_sve()"];
+	vcpu_get_flag	[label="vcpu_get_flag()"];
+	vcpu_has_nv	[label="vcpu_has_nv()"];
+	BUG	[label="BUG()"];
+	get_timer_map	[label="void get_timer_map (struct kvm_vcpu *vcpu, struct timer_map *map)
+arch/arm64/kvm/arch_timer.c:178"];
+	get_timer_map -> vcpu_has_nv;
+	is_hyp_ctxt	[label="is_hyp_ctxt()"];
+	get_timer_map -> is_hyp_ctxt;
+	vcpu_hvtimer	[label="vcpu_hvtimer()"];
+	get_timer_map -> vcpu_hvtimer;
+	vcpu_hptimer	[label="vcpu_hptimer()"];
+	get_timer_map -> vcpu_hptimer;
+	vcpu_vtimer	[label="vcpu_vtimer()"];
+	get_timer_map -> vcpu_vtimer;
+	vcpu_ptimer	[label="vcpu_ptimer()"];
+	get_timer_map -> vcpu_ptimer;
+	has_vhe	[label="has_vhe()"];
+	get_timer_map -> has_vhe;
+	trace_kvm_get_timer_map	[label="trace_kvm_get_timer_map()"];
+	get_timer_map -> trace_kvm_get_timer_map;
+	soft_timer_cancel	[label="void soft_timer_cancel (struct hrtimer *hrt)
+arch/arm64/kvm/arch_timer.c:219"];
+	hrtimer_cancel	[label="hrtimer_cancel()"];
+	soft_timer_cancel -> hrtimer_cancel;
+	timer_emulate	[label="void timer_emulate (struct arch_timer_context *ctx)
+arch/arm64/kvm/arch_timer.c:465"];
+	bool	[label="bool()"];
+	timer_emulate -> bool;
+	kvm_timer_should_fire	[label="bool kvm_timer_should_fire (struct arch_timer_context *timer_ctx)
+arch/arm64/kvm/arch_timer.c:381"];
+	timer_emulate -> kvm_timer_should_fire;
+	trace_kvm_timer_emulate	[label="trace_kvm_timer_emulate()"];
+	timer_emulate -> trace_kvm_timer_emulate;
+	kvm_timer_update_irq	[label="void kvm_timer_update_irq (struct kvm_vcpu *vcpu, bool new_level, struct arch_timer_context *timer_ctx)
+arch/arm64/kvm/arch_timer.c:\
+446"];
+	timer_emulate -> kvm_timer_update_irq;
+	kvm_timer_irq_can_fire	[label="bool kvm_timer_irq_can_fire (struct arch_timer_context *timer_ctx)
+arch/arm64/kvm/arch_timer.c:279"];
+	timer_emulate -> kvm_timer_irq_can_fire;
+	soft_timer_start	[label="void soft_timer_start (struct hrtimer *hrt, u64 ns)
+arch/arm64/kvm/arch_timer.c:213"];
+	timer_emulate -> soft_timer_start;
+	kvm_timer_compute_delta	[label="u64 kvm_timer_compute_delta (struct arch_timer_context *timer_ctx)
+arch/arm64/kvm/arch_timer.c:274"];
+	timer_emulate -> kvm_timer_compute_delta;
+	preempt_disable	[label="preempt_disable()"];
+	timer_save_state	[label="void timer_save_state (struct arch_timer_context *ctx)
+arch/arm64/kvm/arch_timer.c:498"];
+	timer_save_state -> BUG;
+	timer_set_cval	[label="void timer_set_cval (struct arch_timer_context *ctxt, u64 cval)
+arch/arm64/kvm/arch_timer.c:141"];
+	timer_save_state -> timer_set_cval;
+	timer_get_offset	[label="u64 timer_get_offset (struct arch_timer_context *ctxt)
+arch/arm64/kvm/arch_timer.c:104"];
+	timer_save_state -> timer_get_offset;
+	timer_set_ctl	[label="void timer_set_ctl (struct arch_timer_context *ctxt, u32 ctl)
+arch/arm64/kvm/arch_timer.c:119"];
+	timer_save_state -> timer_set_ctl;
+	arch_timer_ctx_index	[label="arch_timer_ctx_index()"];
+	timer_save_state -> arch_timer_ctx_index;
+	read_sysreg_el0	[label="read_sysreg_el0()"];
+	timer_save_state -> read_sysreg_el0;
+	vcpu_timer	[label="vcpu_timer()"];
+	timer_save_state -> vcpu_timer;
+	local_irq_save	[label="local_irq_save()"];
+	timer_save_state -> local_irq_save;
+	write_sysreg_el0	[label="write_sysreg_el0()"];
+	timer_save_state -> write_sysreg_el0;
+	isb	[label="isb()"];
+	timer_save_state -> isb;
+	set_cntvoff	[label="void set_cntvoff (u64 cntvoff)
+arch/arm64/kvm/arch_timer.c:487"];
+	timer_save_state -> set_cntvoff;
+	set_cntpoff	[label="void set_cntpoff (u64 cntpoff)
+arch/arm64/kvm/arch_timer.c:492"];
+	timer_save_state -> set_cntpoff;
+	trace_kvm_timer_save_state	[label="trace_kvm_timer_save_state()"];
+	timer_save_state -> trace_kvm_timer_save_state;
+	local_irq_restore	[label="local_irq_restore()"];
+	timer_save_state -> local_irq_restore;
+	timer_restore_state	[label="void timer_restore_state (struct arch_timer_context *ctx)
+arch/arm64/kvm/arch_timer.c:604"];
+	timer_restore_state -> BUG;
+	timer_restore_state -> timer_get_offset;
+	timer_restore_state -> arch_timer_ctx_index;
+	timer_get_cval	[label="u64 timer_get_cval (struct arch_timer_context *ctxt)
+arch/arm64/kvm/arch_timer.c:85"];
+	timer_restore_state -> timer_get_cval;
+	timer_get_ctl	[label="u32 timer_get_ctl (struct arch_timer_context *ctxt)
+arch/arm64/kvm/arch_timer.c:66"];
+	timer_restore_state -> timer_get_ctl;
+	timer_restore_state -> vcpu_timer;
+	timer_restore_state -> local_irq_save;
+	timer_restore_state -> write_sysreg_el0;
+	timer_restore_state -> isb;
+	timer_restore_state -> set_cntvoff;
+	timer_restore_state -> set_cntpoff;
+	timer_restore_state -> local_irq_restore;
+	trace_kvm_timer_restore_state	[label="trace_kvm_timer_restore_state()"];
+	timer_restore_state -> trace_kvm_timer_restore_state;
+	preempt_enable	[label="preempt_enable()"];
+	timer_set_cval -> arch_timer_ctx_index;
+	WARN_ON	[label="WARN_ON()"];
+	timer_set_cval -> WARN_ON;
+	kvm_phys_timer_read	[label="u64 kvm_phys_timer_read (void)
+arch/arm64/kvm/arch_timer.c:173"];
+	timer_set_ctl -> arch_timer_ctx_index;
+	timer_set_ctl -> WARN_ON;
+	kvm_timer_should_fire -> kvm_phys_timer_read;
+	kvm_timer_should_fire -> timer_get_offset;
+	kvm_timer_should_fire -> arch_timer_ctx_index;
+	kvm_timer_should_fire -> kvm_timer_irq_can_fire;
+	kvm_timer_should_fire -> read_sysreg_el0;
+	kvm_timer_should_fire -> timer_get_cval;
+	kvm_timer_update_irq -> WARN_ON;
+	trace_kvm_timer_update_irq	[label="trace_kvm_timer_update_irq()"];
+	kvm_timer_update_irq -> trace_kvm_timer_update_irq;
+	timer_irq	[label="timer_irq()"];
+	kvm_timer_update_irq -> timer_irq;
+	userspace_irqchip	[label="inline bool userspace_irqchip (struct kvm *kvm)
+arch/arm64/kvm/arch_timer.c:207"];
+	kvm_timer_update_irq -> userspace_irqchip;
+	kvm_vgic_inject_irq	[label="kvm_vgic_inject_irq()"];
+	kvm_timer_update_irq -> kvm_vgic_inject_irq;
+	kvm_timer_irq_can_fire -> WARN_ON;
+	kvm_timer_irq_can_fire -> timer_get_ctl;
+	hrtimer_start	[label="hrtimer_start()"];
+	soft_timer_start -> hrtimer_start;
+	ktime_add_ns	[label="ktime_add_ns()"];
+	soft_timer_start -> ktime_add_ns;
+	ktime_get	[label="ktime_get()"];
+	soft_timer_start -> ktime_get;
+	kvm_timer_compute_delta -> timer_get_cval;
+	kvm_counter_compute_delta	[label="u64 kvm_counter_compute_delta (struct arch_timer_context *timer_ctx, u64 val)
+arch/arm64/kvm/arch_timer.c:256"];
+	kvm_timer_compute_delta -> kvm_counter_compute_delta;
+	timer_get_cval -> arch_timer_ctx_index;
+	timer_get_cval -> WARN_ON;
+	timer_get_ctl -> arch_timer_ctx_index;
+	timer_get_ctl -> WARN_ON;
+	static_branch_unlikely	[label="static_branch_unlikely()"];
+	userspace_irqchip -> static_branch_unlikely;
+	unlikely	[label="unlikely()"];
+	userspace_irqchip -> unlikely;
+	irqchip_in_kernel	[label="irqchip_in_kernel()"];
+	userspace_irqchip -> irqchip_in_kernel;
+	kvm_counter_compute_delta -> kvm_phys_timer_read;
+	kvm_counter_compute_delta -> timer_get_offset;
+	cyclecounter_cyc2ns	[label="cyclecounter_cyc2ns()"];
+	kvm_counter_compute_delta -> cyclecounter_cyc2ns;
+	kvm_call_hyp	[label="kvm_call_hyp()"];
+	set_cntvoff -> kvm_call_hyp;
+	has_cntpoff	[label="has_cntpoff()"];
+	set_cntpoff -> has_cntpoff;
+	write_sysreg_s	[label="write_sysreg_s()"];
+	set_cntpoff -> write_sysreg_s;
+	cpus_have_final_cap	[label="cpus_have_final_cap()"];
+	BUG_ON	[label="BUG_ON()"];
+	read_sysreg	[label="read_sysreg()"];
+	BIT	[label="BIT()"];
+	kvm_vcpu_pmu_restore_guest	[label="void kvm_vcpu_pmu_restore_guest (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/pmu.c:176"];
+	kvm_vcpu_pmu_restore_guest -> preempt_disable;
+	kvm_vcpu_pmu_restore_guest -> preempt_enable;
+	kvm_vcpu_pmu_restore_guest -> has_vhe;
+	kvm_arm_support_pmu_v3	[label="kvm_arm_support_pmu_v3()"];
+	kvm_vcpu_pmu_restore_guest -> kvm_arm_support_pmu_v3;
+	kvm_get_pmu_events	[label="struct kvm_pmu_events *kvm_get_pmu_events (void)
+arch/arm64/kvm/pmu.c:29"];
+	kvm_vcpu_pmu_restore_guest -> kvm_get_pmu_events;
+	kvm_vcpu_pmu_enable_el0	[label="void kvm_vcpu_pmu_enable_el0 (unsigned long events)
+arch/arm64/kvm/pmu.c:143"];
+	kvm_vcpu_pmu_restore_guest -> kvm_vcpu_pmu_enable_el0;
+	kvm_vcpu_pmu_disable_el0	[label="void kvm_vcpu_pmu_disable_el0 (unsigned long events)
+arch/arm64/kvm/pmu.c:158"];
+	kvm_vcpu_pmu_restore_guest -> kvm_vcpu_pmu_disable_el0;
+	container_of	[label="container_of()"];
+	kvm_make_request	[label="kvm_make_request()"];
+	for_each_set_bit	[label="for_each_set_bit()"];
+	WRITE_ONCE	[label="WRITE_ONCE()"];
+	this_cpu_ptr	[label="this_cpu_ptr()"];
+	kvm_get_pmu_events -> this_cpu_ptr;
+	kvm_vcpu_pmu_enable_el0 -> for_each_set_bit;
+	kvm_vcpu_pmu_read_evtype_direct	[label="u64 kvm_vcpu_pmu_read_evtype_direct (int idx)
+arch/arm64/kvm/pmu.c:111"];
+	kvm_vcpu_pmu_enable_el0 -> kvm_vcpu_pmu_read_evtype_direct;
+	kvm_vcpu_pmu_write_evtype_direct	[label="void kvm_vcpu_pmu_write_evtype_direct (int idx, u32 val)
+arch/arm64/kvm/pmu.c:128"];
+	kvm_vcpu_pmu_enable_el0 -> kvm_vcpu_pmu_write_evtype_direct;
+	kvm_vcpu_pmu_disable_el0 -> for_each_set_bit;
+	kvm_vcpu_pmu_disable_el0 -> kvm_vcpu_pmu_read_evtype_direct;
+	kvm_vcpu_pmu_disable_el0 -> kvm_vcpu_pmu_write_evtype_direct;
+	kvm_vcpu_pmu_read_evtype_direct -> WARN_ON;
+	kvm_vcpu_pmu_read_evtype_direct -> read_sysreg;
+	PMEVTYPER_CASES	[label="PMEVTYPER_CASES()"];
+	kvm_vcpu_pmu_read_evtype_direct -> PMEVTYPER_CASES;
+	kvm_vcpu_pmu_write_evtype_direct -> WARN_ON;
+	kvm_vcpu_pmu_write_evtype_direct -> PMEVTYPER_CASES;
+	write_sysreg	[label="write_sysreg()"];
+	kvm_vcpu_pmu_write_evtype_direct -> write_sysreg;
+	vcpu_el2_e2h_is_set	[label="vcpu_el2_e2h_is_set()"];
+	is_protected_kvm_enabled	[label="is_protected_kvm_enabled()"];
+	is_kernel_in_hyp_mode	[label="is_kernel_in_hyp_mode()"];
+	pr_err	[label="pr_err()"];
+	min	[label="min()"];
+	mutex_lock	[label="mutex_lock()"];
+	mutex_unlock	[label="mutex_unlock()"];
+	WARN_ON_ONCE	[label="WARN_ON_ONCE()"];
+	vcpu_get_reg	[label="vcpu_get_reg()"];
+	kvm_arch_vcpu_put	[label="void kvm_arch_vcpu_put (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arm.c:473"];
+	kvm_arch_vcpu_put -> has_vhe;
+	kvm_arch_vcpu_put_debug_state_flags	[label="void kvm_arch_vcpu_put_debug_state_flags (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/debug.c:340"];
+	kvm_arch_vcpu_put -> kvm_arch_vcpu_put_debug_state_flags;
+	kvm_arch_vcpu_put_fp	[label="void kvm_arch_vcpu_put_fp (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/fpsimd.c:175"];
+	kvm_arch_vcpu_put -> kvm_arch_vcpu_put_fp;
+	kvm_vcpu_put_vhe	[label="kvm_vcpu_put_vhe()"];
+	kvm_arch_vcpu_put -> kvm_vcpu_put_vhe;
+	kvm_timer_vcpu_put	[label="void kvm_timer_vcpu_put (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:878"];
+	kvm_arch_vcpu_put -> kvm_timer_vcpu_put;
+	kvm_vgic_put	[label="kvm_vgic_put()"];
+	kvm_arch_vcpu_put -> kvm_vgic_put;
+	kvm_vcpu_pmu_restore_host	[label="void kvm_vcpu_pmu_restore_host (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/pmu.c:197"];
+	kvm_arch_vcpu_put -> kvm_vcpu_pmu_restore_host;
+	kvm_arm_vmid_clear_active	[label="void kvm_arm_vmid_clear_active (void)
+arch/arm64/kvm/vmid.c:133"];
+	kvm_arch_vcpu_put -> kvm_arm_vmid_clear_active;
+	vcpu_clear_on_unsupported_cpu	[label="vcpu_clear_on_unsupported_cpu()"];
+	kvm_arch_vcpu_put -> vcpu_clear_on_unsupported_cpu;
+	kvm_arch_vcpu_load	[label="void kvm_arch_vcpu_load (struct kvm_vcpu *vcpu, int cpu)
+arch/arm64/kvm/arm.c:427"];
+	kvm_arch_vcpu_load -> has_vhe;
+	kvm_arch_vcpu_load -> kvm_call_hyp;
+	kvm_arch_vcpu_load -> kvm_vcpu_pmu_restore_guest;
+	kvm_arch_vcpu_load -> kvm_make_request;
+	kvm_arch_vcpu_load -> this_cpu_ptr;
+	kvm_vgic_load	[label="kvm_vgic_load()"];
+	kvm_arch_vcpu_load -> kvm_vgic_load;
+	kvm_timer_vcpu_load	[label="void kvm_timer_vcpu_load (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:827"];
+	kvm_arch_vcpu_load -> kvm_timer_vcpu_load;
+	kvm_vcpu_load_vhe	[label="kvm_vcpu_load_vhe()"];
+	kvm_arch_vcpu_load -> kvm_vcpu_load_vhe;
+	kvm_arch_vcpu_load_fp	[label="void kvm_arch_vcpu_load_fp (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/fpsimd.c:75"];
+	kvm_arch_vcpu_load -> kvm_arch_vcpu_load_fp;
+	kvm_arm_is_pvtime_enabled	[label="kvm_arm_is_pvtime_enabled()"];
+	kvm_arch_vcpu_load -> kvm_arm_is_pvtime_enabled;
+	single_task_running	[label="single_task_running()"];
+	kvm_arch_vcpu_load -> single_task_running;
+	vcpu_clear_wfx_traps	[label="vcpu_clear_wfx_traps()"];
+	kvm_arch_vcpu_load -> vcpu_clear_wfx_traps;
+	vcpu_set_wfx_traps	[label="vcpu_set_wfx_traps()"];
+	kvm_arch_vcpu_load -> vcpu_set_wfx_traps;
+	vcpu_has_ptrauth	[label="vcpu_has_ptrauth()"];
+	kvm_arch_vcpu_load -> vcpu_has_ptrauth;
+	vcpu_ptrauth_disable	[label="vcpu_ptrauth_disable()"];
+	kvm_arch_vcpu_load -> vcpu_ptrauth_disable;
+	kvm_arch_vcpu_load_debug_state_flags	[label="void kvm_arch_vcpu_load_debug_state_flags (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/debug.c:317"];
+	kvm_arch_vcpu_load -> kvm_arch_vcpu_load_debug_state_flags;
+	cpumask_test_cpu	[label="cpumask_test_cpu()"];
+	kvm_arch_vcpu_load -> cpumask_test_cpu;
+	vcpu_set_on_unsupported_cpu	[label="vcpu_set_on_unsupported_cpu()"];
+	kvm_arch_vcpu_load -> vcpu_set_on_unsupported_cpu;
+	vcpu_clear_flag	[label="vcpu_clear_flag()"];
+	kvm_arch_vcpu_put_debug_state_flags -> vcpu_clear_flag;
+	kvm_arch_vcpu_put_fp -> vcpu_has_sve;
+	kvm_arch_vcpu_put_fp -> vcpu_get_flag;
+	kvm_arch_vcpu_put_fp -> has_vhe;
+	kvm_arch_vcpu_put_fp -> local_irq_save;
+	kvm_arch_vcpu_put_fp -> isb;
+	kvm_arch_vcpu_put_fp -> local_irq_restore;
+	system_supports_sme	[label="system_supports_sme()"];
+	kvm_arch_vcpu_put_fp -> system_supports_sme;
+	sysreg_clear_set	[label="sysreg_clear_set()"];
+	kvm_arch_vcpu_put_fp -> sysreg_clear_set;
+	read_sysreg_el1	[label="read_sysreg_el1()"];
+	kvm_arch_vcpu_put_fp -> read_sysreg_el1;
+	sve_cond_update_zcr_vq	[label="sve_cond_update_zcr_vq()"];
+	kvm_arch_vcpu_put_fp -> sve_cond_update_zcr_vq;
+	vcpu_sve_max_vq	[label="vcpu_sve_max_vq()"];
+	kvm_arch_vcpu_put_fp -> vcpu_sve_max_vq;
+	fpsimd_save_and_flush_cpu_state	[label="fpsimd_save_and_flush_cpu_state()"];
+	kvm_arch_vcpu_put_fp -> fpsimd_save_and_flush_cpu_state;
+	system_supports_sve	[label="system_supports_sve()"];
+	kvm_arch_vcpu_put_fp -> system_supports_sve;
+	kvm_timer_vcpu_put -> get_timer_map;
+	kvm_timer_vcpu_put -> soft_timer_cancel;
+	kvm_timer_vcpu_put -> timer_save_state;
+	kvm_timer_vcpu_put -> unlikely;
+	kvm_timer_vcpu_put -> vcpu_timer;
+	kvm_vcpu_is_blocking	[label="kvm_vcpu_is_blocking()"];
+	kvm_timer_vcpu_put -> kvm_vcpu_is_blocking;
+	kvm_timer_blocking	[label="void kvm_timer_blocking (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:572"];
+	kvm_timer_vcpu_put -> kvm_timer_blocking;
+	kvm_vcpu_pmu_restore_host -> has_vhe;
+	kvm_vcpu_pmu_restore_host -> kvm_arm_support_pmu_v3;
+	kvm_vcpu_pmu_restore_host -> kvm_get_pmu_events;
+	kvm_vcpu_pmu_restore_host -> kvm_vcpu_pmu_enable_el0;
+	kvm_vcpu_pmu_restore_host -> kvm_vcpu_pmu_disable_el0;
+	kvm_arm_vmid_clear_active -> this_cpu_ptr;
+	atomic64_set	[label="atomic64_set()"];
+	kvm_arm_vmid_clear_active -> atomic64_set;
+	kvm_timer_blocking -> get_timer_map;
+	kvm_timer_blocking -> kvm_timer_irq_can_fire;
+	kvm_timer_blocking -> soft_timer_start;
+	kvm_timer_blocking -> vcpu_timer;
+	vcpu_has_wfit_active	[label="bool vcpu_has_wfit_active (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:287"];
+	kvm_timer_blocking -> vcpu_has_wfit_active;
+	kvm_timer_earliest_exp	[label="u64 kvm_timer_earliest_exp (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:308"];
+	kvm_timer_blocking -> kvm_timer_earliest_exp;
+	vcpu_has_wfit_active -> vcpu_get_flag;
+	vcpu_has_wfit_active -> cpus_have_final_cap;
+	kvm_timer_earliest_exp -> kvm_timer_irq_can_fire;
+	kvm_timer_earliest_exp -> kvm_timer_compute_delta;
+	kvm_timer_earliest_exp -> min;
+	kvm_timer_earliest_exp -> vcpu_has_wfit_active;
+	nr_timers	[label="int nr_timers (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:58"];
+	kvm_timer_earliest_exp -> nr_timers;
+	WARN	[label="WARN()"];
+	kvm_timer_earliest_exp -> WARN;
+	wfit_delay_ns	[label="u64 wfit_delay_ns (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:293"];
+	kvm_timer_earliest_exp -> wfit_delay_ns;
+	nr_timers -> vcpu_has_nv;
+	wfit_delay_ns -> vcpu_has_nv;
+	wfit_delay_ns -> is_hyp_ctxt;
+	wfit_delay_ns -> vcpu_hvtimer;
+	wfit_delay_ns -> vcpu_vtimer;
+	wfit_delay_ns -> kvm_counter_compute_delta;
+	wfit_delay_ns -> vcpu_get_reg;
+	kvm_vcpu_sys_get_rt	[label="kvm_vcpu_sys_get_rt()"];
+	wfit_delay_ns -> kvm_vcpu_sys_get_rt;
+	kvm_timer_vcpu_load -> vcpu_has_nv;
+	kvm_timer_vcpu_load -> get_timer_map;
+	kvm_timer_vcpu_load -> timer_emulate;
+	kvm_timer_vcpu_load -> timer_restore_state;
+	kvm_timer_vcpu_load -> unlikely;
+	kvm_timer_vcpu_load -> vcpu_timer;
+	static_branch_likely	[label="static_branch_likely()"];
+	kvm_timer_vcpu_load -> static_branch_likely;
+	kvm_timer_vcpu_load_nested_switch	[label="void kvm_timer_vcpu_load_nested_switch (struct kvm_vcpu *vcpu, struct timer_map *map)
+arch/arm64/kvm/arch_timer.c:714"];
+	kvm_timer_vcpu_load -> kvm_timer_vcpu_load_nested_switch;
+	kvm_timer_vcpu_load_gic	[label="void kvm_timer_vcpu_load_gic (struct arch_timer_context *ctx)
+arch/arm64/kvm/arch_timer.c:656"];
+	kvm_timer_vcpu_load -> kvm_timer_vcpu_load_gic;
+	kvm_timer_vcpu_load_nogic	[label="void kvm_timer_vcpu_load_nogic (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:677"];
+	kvm_timer_vcpu_load -> kvm_timer_vcpu_load_nogic;
+	kvm_timer_unblocking	[label="void kvm_timer_unblocking (struct kvm_vcpu *vcpu)
+arch/arm64/kvm/arch_timer.c:597"];
+	kvm_timer_vcpu_load -> kvm_timer_unblocking;
+	timer_set_traps	[label="void timer_set_traps (struct kvm_vcpu *vcpu, struct timer_map *map)
+arch/arm64/kvm/arch_timer.c:765"];
+	kvm_timer_vcpu_load -> timer_set_traps;
+	kvm_arch_vcpu_load_fp -> BUG_ON;
+	kvm_arch_vcpu_load_fp -> read_sysreg;
+	kvm_arch_vcpu_load_fp -> vcpu_clear_flag;
+	kvm_arch_vcpu_load_fp -> system_supports_sme;
+	kvm_arch_vcpu_load_fp -> fpsimd_save_and_flush_cpu_state;
+	system_supports_fpsimd	[label="system_supports_fpsimd()"];
+	kvm_arch_vcpu_load_fp -> system_supports_fpsimd;
+	fpsimd_kvm_prepare	[label="fpsimd_kvm_prepare()"];
+	kvm_arch_vcpu_load_fp -> fpsimd_kvm_prepare;
+	vcpu_set_flag	[label="vcpu_set_flag()"];
+	kvm_arch_vcpu_load_fp -> vcpu_set_flag;
+	read_sysreg_s	[label="read_sysreg_s()"];
+	kvm_arch_vcpu_load_fp -> read_sysreg_s;
+	kvm_arch_vcpu_load_debug_state_flags -> has_vhe;
+	kvm_arch_vcpu_load_debug_state_flags -> read_sysreg;
+	kvm_arch_vcpu_load_debug_state_flags -> BIT;
+	kvm_arch_vcpu_load_debug_state_flags -> vcpu_set_flag;
+	kvm_arch_vcpu_load_debug_state_flags -> read_sysreg_s;
+	cpuid_feature_extract_unsigned_field	[label="cpuid_feature_extract_unsigned_field()"];
+	kvm_arch_vcpu_load_debug_state_flags -> cpuid_feature_extract_unsigned_field;
+	kvm_timer_vcpu_load_nested_switch -> vcpu_hvtimer;
+	kvm_timer_vcpu_load_nested_switch -> timer_irq;
+	kvm_timer_vcpu_load_nested_switch -> irqchip_in_kernel;
+	kvm_timer_vcpu_load_nested_switch -> vcpu_el2_e2h_is_set;
+	kvm_timer_vcpu_load_nested_switch -> WARN_ON_ONCE;
+	kvm_vgic_get_map	[label="kvm_vgic_get_map()"];
+	kvm_timer_vcpu_load_nested_switch -> kvm_vgic_get_map;
+	kvm_vgic_unmap_phys_irq	[label="kvm_vgic_unmap_phys_irq()"];
+	kvm_timer_vcpu_load_nested_switch -> kvm_vgic_unmap_phys_irq;
+	kvm_vgic_map_phys_irq	[label="kvm_vgic_map_phys_irq()"];
+	kvm_timer_vcpu_load_nested_switch -> kvm_vgic_map_phys_irq;
+	kvm_timer_vcpu_load_gic -> bool;
+	kvm_timer_vcpu_load_gic -> kvm_timer_should_fire;
+	kvm_timer_vcpu_load_gic -> kvm_timer_update_irq;
+	kvm_timer_vcpu_load_gic -> timer_irq;
+	kvm_timer_vcpu_load_gic -> irqchip_in_kernel;
+	kvm_vgic_map_is_active	[label="kvm_vgic_map_is_active()"];
+	kvm_timer_vcpu_load_gic -> kvm_vgic_map_is_active;
+	set_timer_irq_phys_active	[label="inline void set_timer_irq_phys_active (struct arch_timer_context *ctx, bool active)
+arch/arm64/kvm/arch_timer.c:649"];
+	kvm_timer_vcpu_load_gic -> set_timer_irq_phys_active;
+	kvm_timer_vcpu_load_nogic -> vcpu_vtimer;
+	kvm_timer_vcpu_load_nogic -> kvm_timer_should_fire;
+	kvm_timer_vcpu_load_nogic -> kvm_timer_update_irq;
+	disable_percpu_irq	[label="disable_percpu_irq()"];
+	kvm_timer_vcpu_load_nogic -> disable_percpu_irq;
+	enable_percpu_irq	[label="enable_percpu_irq()"];
+	kvm_timer_vcpu_load_nogic -> enable_percpu_irq;
+	kvm_timer_unblocking -> soft_timer_cancel;
+	kvm_timer_unblocking -> vcpu_timer;
+	timer_set_traps -> vcpu_has_nv;
+	timer_set_traps -> is_hyp_ctxt;
+	timer_set_traps -> has_vhe;
+	timer_set_traps -> timer_get_offset;
+	timer_set_traps -> bool;
+	timer_set_traps -> has_cntpoff;
+	timer_set_traps -> vcpu_el2_e2h_is_set;
+	timer_set_traps -> sysreg_clear_set;
+	assign_clear_set_bit	[label="assign_clear_set_bit()"];
+	timer_set_traps -> assign_clear_set_bit;
+	set_timer_irq_phys_active -> WARN_ON;
+	irq_set_irqchip_state	[label="irq_set_irqchip_state()"];
+	set_timer_irq_phys_active -> irq_set_irqchip_state;
+	cpu_hyp_reset	[label="void cpu_hyp_reset (void)
+arch/arm64/kvm/arm.c:1914"];
+	cpu_hyp_reset -> is_kernel_in_hyp_mode;
+	kvm_init	[label="int kvm_init (unsigned vcpu_size, unsigned vcpu_align, struct module *module)
+virt/kvm/kvm_main.c:6048"];
+	kvm_init -> pr_err;
+	kvm_init -> WARN_ON_ONCE;
+	for_each_possible_cpu	[label="for_each_possible_cpu()"];
+	kvm_init -> for_each_possible_cpu;
+	per_cpu	[label="per_cpu()"];
+	kvm_init -> per_cpu;
+	cpuhp_setup_state_nocalls	[label="cpuhp_setup_state_nocalls()"];
+	kvm_init -> cpuhp_setup_state_nocalls;
+	kvm_online_cpu	[label="int kvm_online_cpu (unsigned int cpu)
+virt/kvm/kvm_main.c:5194"];
+	kvm_init -> kvm_online_cpu;
+	kvm_offline_cpu	[label="int kvm_offline_cpu (unsigned int cpu)
+virt/kvm/kvm_main.c:5224"];
+	kvm_init -> kvm_offline_cpu;
+	register_syscore_ops	[label="register_syscore_ops()"];
+	kvm_init -> register_syscore_ops;
+	kmem_cache_create_usercopy	[label="kmem_cache_create_usercopy()"];
+	kvm_init -> kmem_cache_create_usercopy;
+	offsetof	[label="offsetof()"];
+	kvm_init -> offsetof;
+	offsetofend	[label="offsetofend()"];
+	kvm_init -> offsetofend;
+	alloc_cpumask_var_node	[label="alloc_cpumask_var_node()"];
+	kvm_init -> alloc_cpumask_var_node;
+	cpu_to_node	[label="cpu_to_node()"];
+	kvm_init -> cpu_to_node;
+	kvm_irqfd_init	[label="int kvm_irqfd_init (void)
+virt/kvm/eventfd.c:685"];
+	kvm_init -> kvm_irqfd_init;
+	kvm_async_pf_init	[label="int kvm_async_pf_init (void)
+virt/kvm/async_pf.c:22"];
+	kvm_init -> kvm_async_pf_init;
+	kvm_sched_in	[label="void kvm_sched_in (struct preempt_notifier *pn, int cpu)
+virt/kvm/kvm_main.c:5950"];
+	kvm_init -> kvm_sched_in;
+	kvm_sched_out	[label="void kvm_sched_out (struct preempt_notifier *pn, struct task_struct *next)
+virt/kvm/kvm_main.c:5962"];
+	kvm_init -> kvm_sched_out;
+	kvm_init_debug	[label="void kvm_init_debug (void)
+virt/kvm/kvm_main.c:5913"];
+	kvm_init -> kvm_init_debug;
+	kvm_vfio_ops_init	[label="int kvm_vfio_ops_init (void)
+virt/kvm/vfio.c:386"];
+	kvm_init -> kvm_vfio_ops_init;
+	misc_register	[label="misc_register()"];
+	kvm_init -> misc_register;
+	kvm_vfio_ops_exit	[label="void kvm_vfio_ops_exit (void)
+virt/kvm/vfio.c:391"];
+	kvm_init -> kvm_vfio_ops_exit;
+	kvm_async_pf_deinit	[label="void kvm_async_pf_deinit (void)
+virt/kvm/async_pf.c:32"];
+	kvm_init -> kvm_async_pf_deinit;
+	kvm_irqfd_exit	[label="void kvm_irqfd_exit (void)
+virt/kvm/eventfd.c:694"];
+	kvm_init -> kvm_irqfd_exit;
+	free_cpumask_var	[label="free_cpumask_var()"];
+	kvm_init -> free_cpumask_var;
+	kmem_cache_destroy	[label="kmem_cache_destroy()"];
+	kvm_init -> kmem_cache_destroy;
+	unregister_syscore_ops	[label="unregister_syscore_ops()"];
+	kvm_init -> unregister_syscore_ops;
+	cpuhp_remove_state_nocalls	[label="cpuhp_remove_state_nocalls()"];
+	kvm_init -> cpuhp_remove_state_nocalls;
+	ARRAY_SIZE	[label="ARRAY_SIZE()"];
+	cpu_hyp_uninit	[label="void cpu_hyp_uninit (void *discard)
+arch/arm64/kvm/arm.c:1986"];
+	cpu_hyp_uninit -> cpu_hyp_reset;
+	kvm_online_cpu -> mutex_lock;
+	kvm_online_cpu -> mutex_unlock;
+	kvm_offline_cpu -> mutex_lock;
+	kvm_offline_cpu -> mutex_unlock;
+	hardware_disable_nolock	[label="void hardware_disable_nolock (void *junk)
+virt/kvm/kvm_main.c:5210"];
+	kvm_offline_cpu -> hardware_disable_nolock;
+	alloc_workqueue	[label="alloc_workqueue()"];
+	kvm_irqfd_init -> alloc_workqueue;
+	KMEM_CACHE	[label="KMEM_CACHE()"];
+	kvm_async_pf_init -> KMEM_CACHE;
+	kvm_sched_in -> WRITE_ONCE;
+	kvm_sched_in -> kvm_arch_vcpu_load;
+	preempt_notifier_to_vcpu	[label="inline struct kvm_vcpu *preempt_notifier_to_vcpu (struct preempt_notifier *pn)
+virt/kvm/kvm_main.c:5945"];
+	kvm_sched_in -> preempt_notifier_to_vcpu;
+	kvm_arch_sched_in	[label="kvm_arch_sched_in()"];
+	kvm_sched_in -> kvm_arch_sched_in;
+	kvm_sched_out -> WRITE_ONCE;
+	kvm_sched_out -> kvm_arch_vcpu_put;
+	kvm_sched_out -> preempt_notifier_to_vcpu;
+	debugfs_create_dir	[label="debugfs_create_dir()"];
+	kvm_init_debug -> debugfs_create_dir;
+	kvm_stats_debugfs_mode	[label="umode_t kvm_stats_debugfs_mode (const struct _kvm_stats_desc *pdesc)
+virt/kvm/kvm_main.c:1014"];
+	kvm_init_debug -> kvm_stats_debugfs_mode;
+	debugfs_create_file	[label="debugfs_create_file()"];
+	kvm_init_debug -> debugfs_create_file;
+	kvm_register_device_ops	[label="int kvm_register_device_ops (const struct kvm_device_ops *ops, u32 type)
+virt/kvm/kvm_main.c:4450"];
+	kvm_vfio_ops_init -> kvm_register_device_ops;
+	kvm_unregister_device_ops	[label="void kvm_unregister_device_ops (u32 type)
+virt/kvm/kvm_main.c:4462"];
+	kvm_vfio_ops_exit -> kvm_unregister_device_ops;
+	kvm_async_pf_deinit -> kmem_cache_destroy;
+	destroy_workqueue	[label="destroy_workqueue()"];
+	kvm_irqfd_exit -> destroy_workqueue;
+	kvm_arch_hardware_disable	[label="void kvm_arch_hardware_disable (void)
+arch/arm64/kvm/arm.c:2014"];
+	hardware_disable_nolock -> kvm_arch_hardware_disable;
+	kvm_arch_hardware_disable -> is_protected_kvm_enabled;
+	kvm_arch_hardware_disable -> cpu_hyp_uninit;
+	kvm_timer_cpu_down	[label="void kvm_timer_cpu_down (void)
+arch/arm64/kvm/arch_timer.c:1042"];
+	kvm_arch_hardware_disable -> kvm_timer_cpu_down;
+	kvm_vgic_cpu_down	[label="kvm_vgic_cpu_down()"];
+	kvm_arch_hardware_disable -> kvm_vgic_cpu_down;
+	kvm_timer_cpu_down -> disable_percpu_irq;
+	preempt_notifier_to_vcpu -> container_of;
+	kvm_register_device_ops -> ARRAY_SIZE;
+}

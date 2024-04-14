@@ -1,0 +1,2 @@
+to make png out of dot file: dot -Tpng -Granksep=2 -Gnodesep=2 kvm_init.dot > kvm_init.png
+to make dot file for specific function: gvpr -a "function_name" -f kvm.gvpr kvm.dot > subgraph.dot

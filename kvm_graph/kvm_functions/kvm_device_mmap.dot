@@ -1,0 +1,6 @@
+// subgraph node: kvm_device_mmap
+digraph gvpr_result {
+	node [shape=box];
+	kvm_device_mmap	[label="int kvm_device_mmap (struct file *filp, struct vm_area_struct *vma)
+virt/kvm/kvm_main.c:4363"];
+}
