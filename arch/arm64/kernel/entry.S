@@ -68,7 +68,6 @@
 	sub	x0, sp, x0			// x0'' = sp' - x0' = (sp + x0) - sp = x0
 	sub	sp, sp, x0			// sp'' = sp' - x0 = (sp + x0) - x0 = sp
 
-	intrace_record \el, \ht, \regsize	// record necessary information into intrace buffer. will do nothing if intrace
 
 	b	el\el\ht\()_\regsize\()_\label
 

@@ -25,19 +25,19 @@ void intrace_init(void){
     intrace_buf->buff = kzalloc(INTRACE_BUFFER_RING_SIZE, GFP_KERNEL);
     intrace_buf->ptr = 0;
     if(!intrace_buf->buff){
-	goto intrace_fail_free;
+	kfree(intrace_buf);
+	goto intrace_fail;
     }	    
 
 
     pr_info("intrace: Initialised intrace buffer.");
  
-    return;
-
-intrace_fail_free:
-    kfree(intrace_buf);
+    goto out;
 
 intrace_fail:
     pr_info("intrace: FAILED to allocate intrace buffer.");
+
+out:
     return;
 }
 
