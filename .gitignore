@@ -42,9 +42,11 @@
 *.rpm
 *.rsi
 *.s
+*.sh
 *.so
 *.so.dbg
 *.su
+*.svg
 *.symtypes
 *.symversions
 *.tab.[ch]
