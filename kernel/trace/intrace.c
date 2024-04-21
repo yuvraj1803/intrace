@@ -2,35 +2,36 @@
 #include <linux/intrace.h>
 #include <linux/printk.h>
 #include <linux/types.h>
+#include <linux/gfp_types.h>
 
-#define INTRACE_BUFFER_RING_NR_PAGES     1
-#define INTRACE_BUFFER_RING_SIZE         (INTRACE_BUFFER_RING_NR_PAGES * PAGE_SIZE)
-#define INTRACE_BUFFER_RING_NR_ENTRIES   (INTRACE_BUFFER_RING_SIZE / sizeof(u64))
+#define INTRACE_BUFFER_NR_PAGES     1
+#define INTRACE_BUFFER_RING_SIZE    (INTRACE_BUFFER_NR_PAGES * PAGE_SIZE)
+#define INTRACE_BUFFER_NR_ENTRIES   (INTRACE_BUFFER_RING_SIZE / sizeof(struct intrace_info))
 
-#define intrace_buf_inc_ptr()            (intrace_buf->ptr = (intrace_buf->ptr + 1) % INTRACE_BUFFER_RING_NR_ENTRIES)
-#define intrace_buf_dec_ptr()            (intrace_buf->ptr = ((intrace_buf->ptr - 1) % INTRACE_BUFFER_RING_NR_ENTRIES + INTRACE_BUFFER_RING_NR_ENTRIES)%INTRACE_BUFFER_RING_NR_ENTRIES);
+static struct intrace_buffer* intrace_buf;
 
-struct intrace_buffer{
-    u64* buff;
-    u64  ptr;
-} *intrace_buf;
+#define INTRACE_BUFFER_ADVANCE()    (intrace_buf->ptr = (intrace_buf->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intrace_buf->ptr + 1)
 
-void intrace_init(void){
+
+void intrace_init(void)
+{
 
     intrace_buf = kzalloc(sizeof(*intrace_buf), GFP_KERNEL);
     if(!intrace_buf){
         goto intrace_fail;
     }
 
-    intrace_buf->buff = kzalloc(INTRACE_BUFFER_RING_SIZE, GFP_KERNEL);
-    intrace_buf->ptr = 0;
+    intrace_buf->buff   = kzalloc(INTRACE_BUFFER_RING_SIZE, GFP_KERNEL);
+    intrace_buf->ptr    = 0;
+    spin_lock_init(&intrace_buf->lock);
+
     if(!intrace_buf->buff){
-	kfree(intrace_buf);
-	goto intrace_fail;
+	    kfree(intrace_buf);
+	    goto intrace_fail;
     }	    
 
 
-    pr_info("intrace: Initialised intrace buffer.");
+    pr_info("intrace: Initialized intrace buffer.");
  
     goto out;
 
@@ -41,20 +42,20 @@ out:
     return;
 }
 
-void intrace_buf_put(u64 val){
+void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
+{
 
     if(!intrace_buf) return;    // intrace_init() failed earlier.
 
-    intrace_buf->buff[intrace_buf->ptr] = val;
+    spin_lock(&intrace_buf->lock);
 
-    intrace_buf_inc_ptr();
+    ((struct intrace_info*) (intrace_buf->buff + intrace_buf->ptr))->domain = domain;
+    ((struct intrace_info*) (intrace_buf->buff + intrace_buf->ptr))->desc = desc;
+
+    spin_unlock(&intrace_buf->lock);
+
+    INTRACE_BUFFER_ADVANCE();
+
 }
 
-u64 intrace_buf_get(void){
 
-    if(!intrace_buf) return 0;
-
-    intrace_buf_dec_ptr();
-
-    return intrace_buf->buff[intrace_buf->ptr];
-}

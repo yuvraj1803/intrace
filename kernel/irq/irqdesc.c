@@ -15,6 +15,7 @@
 #include <linux/maple_tree.h>
 #include <linux/irqdomain.h>
 #include <linux/sysfs.h>
+#include <linux/intrace.h>
 
 #include "internals.h"
 
@@ -662,6 +663,7 @@ int handle_irq_desc(struct irq_desc *desc)
 {
 	struct irq_data *data;
 
+
 	if (!desc)
 		return -EINVAL;
 
@@ -725,7 +727,12 @@ EXPORT_SYMBOL_GPL(generic_handle_irq_safe);
  */
 int generic_handle_domain_irq(struct irq_domain *domain, unsigned int hwirq)
 {
-	return handle_irq_desc(irq_resolve_mapping(domain, hwirq));
+
+	struct irq_desc* desc = irq_resolve_mapping(domain, hwirq);
+	
+	intrace_buf_put(domain, desc);
+
+	return handle_irq_desc(desc);
 }
 EXPORT_SYMBOL_GPL(generic_handle_domain_irq);
 
