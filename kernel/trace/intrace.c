@@ -8,25 +8,25 @@
 #define INTRACE_BUFFER_RING_SIZE    (INTRACE_BUFFER_NR_PAGES * PAGE_SIZE)
 #define INTRACE_BUFFER_NR_ENTRIES   (INTRACE_BUFFER_RING_SIZE / sizeof(struct intrace_info))
 
-static struct intrace_buffer* intrace_buf;
+static struct intrace_tracer* intracer;
 
-#define INTRACE_BUFFER_ADVANCE()    (intrace_buf->ptr = (intrace_buf->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intrace_buf->ptr + 1)
+#define INTRACE_BUFFER_ADVANCE()    (intracer->ptr = (intracer->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intracer->ptr + 1)
 
 
 void intrace_init(void)
 {
 
-    intrace_buf = kzalloc(sizeof(*intrace_buf), GFP_KERNEL);
-    if(!intrace_buf){
+    intracer = kzalloc(sizeof(*intracer), GFP_KERNEL);
+    if(!intracer){
         goto intrace_fail;
     }
 
-    intrace_buf->buff   = kzalloc(INTRACE_BUFFER_RING_SIZE, GFP_KERNEL);
-    intrace_buf->ptr    = 0;
-    spin_lock_init(&intrace_buf->lock);
+    intracer->buff   = kzalloc(INTRACE_BUFFER_RING_SIZE, GFP_KERNEL);
+    intracer->ptr    = 0;
+    spin_lock_init(&intracer->lock);
 
-    if(!intrace_buf->buff){
-	    kfree(intrace_buf);
+    if(!intracer->buff){
+	    kfree(intracer);
 	    goto intrace_fail;
     }	    
 
@@ -45,14 +45,14 @@ out:
 void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
 {
 
-    if(!intrace_buf) return;    // intrace_init() failed earlier.
+    if(!intracer) return;    // intrace_init() failed earlier.
 
-    spin_lock(&intrace_buf->lock);
+    spin_lock(&intracer->lock);
 
-    ((struct intrace_info*) (intrace_buf->buff + intrace_buf->ptr))->domain = domain;
-    ((struct intrace_info*) (intrace_buf->buff + intrace_buf->ptr))->desc = desc;
+    ((struct intrace_info*) (intracer->buff + intracer->ptr))->domain = domain;
+    ((struct intrace_info*) (intracer->buff + intracer->ptr))->desc = desc;
 
-    spin_unlock(&intrace_buf->lock);
+    spin_unlock(&intracer->lock);
 
     INTRACE_BUFFER_ADVANCE();
 

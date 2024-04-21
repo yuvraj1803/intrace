@@ -16,9 +16,9 @@ struct intrace_info{
     struct irq_desc*        desc;
 };
 
-struct intrace_buffer{
+struct intrace_tracer{
     struct intrace_info*     buff;
-    u64                      ptr;
+    unsigned long long       ptr;
     spinlock_t               lock;
 };
 
