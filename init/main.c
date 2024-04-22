@@ -933,7 +933,6 @@ void start_kernel(void)
 	mm_core_init();
 	poking_init();
 	ftrace_init();
-	intrace_init();
 
 	/* trace_printk can be enabled here */
 	early_trace_init();
