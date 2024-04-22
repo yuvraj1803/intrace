@@ -10,13 +10,19 @@
 #define INTRACE_BUFFER_NR_ENTRIES            (INTRACE_BUFFER_RING_SIZE / sizeof(struct intrace_info))
 
 #define INTRACE_BUFFER_ADVANCE()                              (intracer->ptr = (intracer->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intracer->ptr + 1)
-#define INTRACE_DEBUGFS_FILE(_name, _data, _mode, _fops)      {.name=(const char*)_name, .data=(void*)_data, .mode=(umode_t)_mode, .fops=(struct file_operations*)_fops, .file=(struct dentry*)NULL}
+#define DEFINE_INTRACE_DEBUGFS_FILE(_name, _data, _mode, _fops)      {.name=(const char*)_name, .data=(void*)_data, .mode=(umode_t)_mode, .fops=(struct file_operations*)_fops, .file=(struct dentry*)NULL}
 
+static bool intrace_enable_recording;
 static struct intrace_tracer* intracer;
 
 static struct intrace_debugfs_file intrace_debugfs_files[] = {
-    INTRACE_DEBUGFS_FILE("testfile", 0, 0, 0)
+    DEFINE_INTRACE_DEBUGFS_FILE("recording_state", 0, 400, 0)
 };
+
+bool intrace_record(void){
+    return intrace_enable_recording;
+}
+
 
 static void __init intrace_debugfs_init(void){
 
@@ -73,7 +79,7 @@ static int __init intrace_init(void)
     }	    
 
     intrace_debugfs_init();
-
+    intrace_enable_recording = true;
 
     pr_info("intrace: Initialized intrace buffer.");
  
