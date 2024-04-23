@@ -730,7 +730,7 @@ int generic_handle_domain_irq(struct irq_domain *domain, unsigned int hwirq)
 
 	struct irq_desc* desc = irq_resolve_mapping(domain, hwirq);
 	
-	intrace_buf_put(domain, desc);
+	if(is_intrace_enabled()) intrace_buf_put(domain, desc);
 
 	return handle_irq_desc(desc);
 }

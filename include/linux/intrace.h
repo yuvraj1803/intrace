@@ -11,6 +11,7 @@ struct irq_desc;
 struct irq_common_data;
 
 void intrace_buf_put(struct irq_domain*, struct irq_desc*);
+bool is_intrace_enabled(void);
 
 struct intrace_info{
     struct irq_domain*      domain;
