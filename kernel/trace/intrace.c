@@ -24,11 +24,46 @@ bool is_intrace_enabled(void){
     return intrace_enabled;
 }
 
+void disable_intrace(void){
+    intrace_enabled = false;
+}
+
+void enable_intrace(void){
+    intrace_enabled = true;
+}
+
+ssize_t intrace_change_state_write(struct file * filep, const char __user * ubuf, size_t cnt, loff_t * ppos){
+
+    char command[10];
+    ssize_t r = cnt;
+
+    if(cnt > 10) cnt = 10; // we only entertain "enable" or "disable" as inputs.
+
+    if(copy_from_user(command, ubuf, cnt)){
+        return -EINVAL;
+    }
+
+    command[cnt] = 0;
+
+    char* __command = strim(command);
+
+    if(!strcmp(__command, "enable"))  enable_intrace();
+    if(!strcmp(__command, "disable")) disable_intrace();
+
+    *ppos += r;
+    return r;
+
+}
+
+
+static struct file_operations intrace_change_state_fops = {
+    .write = intrace_change_state_write,
+};
+
 ssize_t intrace_state_read(struct file *file , char __user * ubuf, size_t cnt, loff_t* ppos){
 
     int r;
-
-    char state[8]; // can either be enabled or disabled
+    char state[10]; // can either be enabled or disabled
 
     r = sprintf(state, "%s\n",is_intrace_enabled() ? "enabled" : "disabled");
 
@@ -41,7 +76,8 @@ static struct file_operations intrace_state_fops = {
 };
 
 static struct intrace_debugfs_file intrace_debugfs_files[] = {
-    DEFINE_INTRACE_DEBUGFS_FILE("state", 0, 400, &intrace_state_fops)
+    DEFINE_INTRACE_DEBUGFS_FILE("state", 0, 400, &intrace_state_fops),
+    DEFINE_INTRACE_DEBUGFS_FILE("change_state", 0, 400, &intrace_change_state_fops)
 };
 
 
@@ -101,7 +137,7 @@ static int __init intrace_init(void)
     }	    
 
     intrace_debugfs_init();
-    intrace_enabled = true;
+    enable_intrace();
 
     pr_info("intrace: Initialized intrace buffer.");
  
