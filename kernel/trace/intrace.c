@@ -4,24 +4,46 @@
 #include <linux/types.h>
 #include <linux/debugfs.h>
 #include <linux/gfp_types.h>
+#include <linux/fs.h>
+#include <linux/kernel.h>
+
+#include <asm/uaccess.h>
 
 #define INTRACE_BUFFER_NR_PAGES              1
 #define INTRACE_BUFFER_RING_SIZE             (INTRACE_BUFFER_NR_PAGES * PAGE_SIZE)
 #define INTRACE_BUFFER_NR_ENTRIES            (INTRACE_BUFFER_RING_SIZE / sizeof(struct intrace_info))
 
-#define INTRACE_BUFFER_ADVANCE()                              (intracer->ptr = (intracer->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intracer->ptr + 1)
+#define INTRACE_BUFFER_ADVANCE()                                     (intracer->ptr = (intracer->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intracer->ptr + 1)
 #define DEFINE_INTRACE_DEBUGFS_FILE(_name, _data, _mode, _fops)      {.name=(const char*)_name, .data=(void*)_data, .mode=(umode_t)_mode, .fops=(struct file_operations*)_fops, .file=(struct dentry*)NULL}
 
-static bool intrace_enable_recording;
+static bool intrace_enabled;
 static struct intrace_tracer* intracer;
 
-static struct intrace_debugfs_file intrace_debugfs_files[] = {
-    DEFINE_INTRACE_DEBUGFS_FILE("recording_state", 0, 400, 0)
+
+bool is_intrace_enabled(void){
+    return intrace_enabled;
+}
+
+ssize_t intrace_state_read(struct file *file , char __user * ubuf, size_t cnt, loff_t* ppos){
+
+    int r;
+
+    char state[8]; // can either be enabled or disabled
+
+    r = sprintf(state, "%s\n",is_intrace_enabled() ? "enabled" : "disabled");
+
+    return simple_read_from_buffer(ubuf, cnt, ppos, state, r);
+}
+
+
+static struct file_operations intrace_state_fops = {
+    .read = intrace_state_read,
 };
 
-bool intrace_record(void){
-    return intrace_enable_recording;
-}
+static struct intrace_debugfs_file intrace_debugfs_files[] = {
+    DEFINE_INTRACE_DEBUGFS_FILE("state", 0, 400, &intrace_state_fops)
+};
+
 
 
 static void __init intrace_debugfs_init(void){
@@ -79,7 +101,7 @@ static int __init intrace_init(void)
     }	    
 
     intrace_debugfs_init();
-    intrace_enable_recording = true;
+    intrace_enabled = true;
 
     pr_info("intrace: Initialized intrace buffer.");
  
