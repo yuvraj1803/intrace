@@ -33,7 +33,51 @@ void enable_intrace(void){
     intrace_enabled = true;
 }
 
+static int __intrace_show(void){
+    return 0;
+}
 
+
+void* intrace_start(struct seq_file *m, loff_t *pos){
+
+    if(!is_intrace_enabled()) return NULL;  
+    return pos;
+}
+
+void intrace_stop(struct seq_file *m, void *v){
+    return;
+}
+
+void* intrace_next(struct seq_file *m, void *v, loff_t *pos){
+    (*pos)++;
+    return pos;
+}   
+
+int intrace_show(struct seq_file *m, void *v){
+
+    return __intrace_show();
+
+}
+
+
+static struct seq_operations intrace_trace_seq_ops = {
+    .start = intrace_start,
+    .next  = intrace_next,
+    .stop  = intrace_stop,
+    .show  = intrace_show,
+};
+
+int intrace_trace_open(struct inode * inode, struct file *file){
+
+    return seq_open(file, &intrace_trace_seq_ops);
+}
+
+static struct file_operations intrace_trace_fops = {
+    .open =     intrace_trace_open,
+    .read =     seq_read,
+    .llseek =   seq_lseek,
+    .release =  seq_release,
+};  
 
 ssize_t intrace_change_state_write(struct file * filep, const char __user * ubuf, size_t cnt, loff_t * ppos){
 
@@ -81,6 +125,7 @@ static struct file_operations intrace_state_fops = {
 static struct intrace_debugfs_file intrace_debugfs_files[] = {
     DEFINE_INTRACE_DEBUGFS_FILE("state", 0, 400, &intrace_state_fops),
     DEFINE_INTRACE_DEBUGFS_FILE("change_state", 0, 400, &intrace_change_state_fops),
+    DEFINE_INTRACE_DEBUGFS_FILE("trace", 0, 400, &intrace_trace_fops)
 
 };
 
@@ -119,7 +164,7 @@ intrace_debugfs_fail:
 
 intrace_debugfs_free_everything:
     debugfs_remove_recursive(intracer->dir);    // if the dentry passed is NULL or an error pointer, nothing will be done. so no need to check the args against anything.
-
+    disable_intrace();
 out:
     return;
 
@@ -152,6 +197,7 @@ static int __init intrace_init(void)
     goto out;
 
 intrace_fail:
+    disable_intrace();
     pr_info("intrace: FAILED to allocate intrace buffer.");
 
 out:
@@ -163,7 +209,7 @@ late_initcall(intrace_init)
 void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
 {
 
-    if(!intracer) return;    // intrace_init() failed earlier.
+    if(!intracer || !is_intrace_enabled()) return;    // intrace_init() failed earlier or intrace is disabled.
 
     spin_lock(&intracer->lock);
     ((struct intrace_info*) (intracer->buff + intracer->ptr))->domain = domain;
@@ -178,7 +224,7 @@ struct intrace_info* intrace_buf_get(void){
 
     struct intrace_info* info = NULL;
 
-    if(!intracer) goto out;
+    if(!intracer || !is_intrace_enabled()) goto out;
 
     spin_lock(&intracer->lock);
     info = (struct intrace_info*) ((unsigned long long)intracer->buff + intracer->ptr);   
