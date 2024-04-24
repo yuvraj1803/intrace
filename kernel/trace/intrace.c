@@ -6,6 +6,7 @@
 #include <linux/gfp_types.h>
 #include <linux/fs.h>
 #include <linux/kernel.h>
+#include <linux/seq_file.h>
 
 #include <asm/uaccess.h>
 
@@ -31,6 +32,8 @@ void disable_intrace(void){
 void enable_intrace(void){
     intrace_enabled = true;
 }
+
+
 
 ssize_t intrace_change_state_write(struct file * filep, const char __user * ubuf, size_t cnt, loff_t * ppos){
 
@@ -77,7 +80,8 @@ static struct file_operations intrace_state_fops = {
 
 static struct intrace_debugfs_file intrace_debugfs_files[] = {
     DEFINE_INTRACE_DEBUGFS_FILE("state", 0, 400, &intrace_state_fops),
-    DEFINE_INTRACE_DEBUGFS_FILE("change_state", 0, 400, &intrace_change_state_fops)
+    DEFINE_INTRACE_DEBUGFS_FILE("change_state", 0, 400, &intrace_change_state_fops),
+
 };
 
 
@@ -99,17 +103,19 @@ static void __init intrace_debugfs_init(void){
         );
 
         if(file == ERR_PTR(-ENODEV)){ // we free all the files and abort even if one file fails to get into debugfs.
-            pr_info("intrace: failed to create file intrace/%s under debugfs. debugfs seems to be disabled.\n", intrace_debugfs_files[i].name);
+            pr_info("intrace: FAILED to create file intrace/%s under debugfs. debugfs seems to be disabled.\n", intrace_debugfs_files[i].name);
             goto intrace_debugfs_free_everything;
         }
 
         intrace_debugfs_files[i].file = file;
     }
 
+    pr_info("intrace: Initialized intrace debugfs entries.\n");
+
     goto out;
 
 intrace_debugfs_fail:
-    pr_info("intrace: Failed to create debugfs object. debugfs seems to be disabled.\n");
+    pr_info("intrace: FAILED to create debugfs object. debugfs seems to be disabled.\n");
 
 intrace_debugfs_free_everything:
     debugfs_remove_recursive(intracer->dir);    // if the dentry passed is NULL or an error pointer, nothing will be done. so no need to check the args against anything.
@@ -130,16 +136,18 @@ static int __init intrace_init(void)
     intracer->buff   = kzalloc(INTRACE_BUFFER_RING_SIZE, GFP_KERNEL);
     intracer->ptr    = 0;
     spin_lock_init(&intracer->lock);
+    
 
     if(!intracer->buff){
 	    kfree(intracer);
 	    goto intrace_fail;
     }	    
 
+    pr_info("intrace: Initialized intrace buffer.");
+
     intrace_debugfs_init();
     enable_intrace();
 
-    pr_info("intrace: Initialized intrace buffer.");
  
     goto out;
 
@@ -158,13 +166,26 @@ void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
     if(!intracer) return;    // intrace_init() failed earlier.
 
     spin_lock(&intracer->lock);
-
     ((struct intrace_info*) (intracer->buff + intracer->ptr))->domain = domain;
     ((struct intrace_info*) (intracer->buff + intracer->ptr))->desc = desc;
-
     spin_unlock(&intracer->lock);
 
     INTRACE_BUFFER_ADVANCE();
+
+}
+
+struct intrace_info* intrace_buf_get(void){
+
+    struct intrace_info* info = NULL;
+
+    if(!intracer) goto out;
+
+    spin_lock(&intracer->lock);
+    info = (struct intrace_info*) ((unsigned long long)intracer->buff + intracer->ptr);   
+    spin_unlock(&intracer->lock);
+
+out:
+    return info;
 
 }
 
