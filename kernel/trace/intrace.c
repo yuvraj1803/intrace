@@ -226,9 +226,9 @@ struct intrace_info* intrace_buf_get(void){
 
     if(!intracer || !is_intrace_enabled()) goto out;
 
-    spin_lock(&intracer->lock);
+    spin_lock_irq(&intracer->lock);
     info = (struct intrace_info*) ((unsigned long long)intracer->buff + intracer->ptr * sizeof(struct intrace_info));   
-    spin_unlock(&intracer->lock);
+    spin_unlock_irq(&intracer->lock);
 
 out:
     return info;
