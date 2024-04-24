@@ -206,6 +206,8 @@ out:
 
 late_initcall(intrace_init)
 
+#define INTRACE_BUFFER_ADVANCE()   (intracer->ptr = (intracer->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intracer->ptr + 1)
+
 void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
 {
 
@@ -214,9 +216,9 @@ void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
     spin_lock(&intracer->lock);
     ((struct intrace_info*) (intracer->buff + intracer->ptr))->domain = domain;
     ((struct intrace_info*) (intracer->buff + intracer->ptr))->desc = desc;
+    INTRACE_BUFFER_ADVANCE();
     spin_unlock(&intracer->lock);
 
-    INTRACE_BUFFER_ADVANCE();
 
 }
 
