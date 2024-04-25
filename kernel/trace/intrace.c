@@ -14,7 +14,7 @@
 #include <linux/irqdomain.h>
 
 #include <asm/uaccess.h>
-
+#include <asm/smp.h>
 
 #define INTRACE_BUFFER_NR_PAGES              1
 #define INTRACE_BUFFER_RING_SIZE             (INTRACE_BUFFER_NR_PAGES * PAGE_SIZE)
@@ -42,6 +42,9 @@ void enable_intrace(void){
 #define INTRACE_SHOW_TIMESTAMP              "[%llu.%6llu] "
 #define INTRACE_SHOW_TIMESTAMP_ARG          timestamp/1000000000, timestamp%1000000
 
+#define INTRACE_SHOW_CPU                    "CPU: %d "
+#define INTRACE_SHOW_CPU_ARG                info->cpu
+
 #define INTRACE_SHOW_DOMAIN                 "DOMAIN: %s "
 #define INTRACE_SHOW_DOMAIN_ARG             info->domain->name
 
@@ -56,6 +59,7 @@ void enable_intrace(void){
 
 #define INTRACE_FMT         INTRACE_SHOW_IRQ_SINCE_START \
                             INTRACE_SHOW_TIMESTAMP \
+                            INTRACE_SHOW_CPU \
                             INTRACE_SHOW_IRQNR \
                             INTRACE_SHOW_HWIRQNR \
                             INTRACE_SHOW_DOMAIN \
@@ -64,6 +68,7 @@ void enable_intrace(void){
 
 #define INTRACE_FMT_ARGS    INTRACE_SHOW_IRQ_SINCE_START_ARG, \
                             INTRACE_SHOW_TIMESTAMP_ARG, \
+                            INTRACE_SHOW_CPU_ARG, \
                             INTRACE_SHOW_IRQNR_ARG, \
                             INTRACE_SHOW_HWIRQNR_ARG, \
                             INTRACE_SHOW_DOMAIN_ARG, \
@@ -271,6 +276,7 @@ void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
     spin_lock(&intracer->lock);
     ((struct intrace_info*) (intracer->buff + intracer->ptr))->domain = domain;
     ((struct intrace_info*) (intracer->buff + intracer->ptr))->desc = desc;
+    ((struct intrace_info*) (intracer->buff + intracer->ptr))->cpu = smp_processor_id();
     INTRACE_BUFFER_ADVANCE();
     spin_unlock(&intracer->lock);
 

@@ -17,6 +17,7 @@ bool is_intrace_enabled(void);
 struct intrace_info{
     struct irq_domain*      domain;
     struct irq_desc*        desc;
+    int                     cpu;
 };
 
 struct intrace_tracer{
