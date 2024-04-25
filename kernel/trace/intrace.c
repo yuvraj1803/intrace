@@ -273,9 +273,9 @@ void intrace_buf_put(struct irq_domain* domain, struct irq_desc* desc)
     if(!intracer || !is_intrace_enabled()) return;    // intrace_init() failed earlier or intrace is disabled.
 
     spin_lock(&intracer->lock);
-    ((struct intrace_info*) (intracer->buff + intracer->ptr))->domain = domain;
-    ((struct intrace_info*) (intracer->buff + intracer->ptr))->desc = desc;
-    ((struct intrace_info*) (intracer->buff + intracer->ptr))->cpu = smp_processor_id();
+    ((struct intrace_info*) (intracer->buff + intracer->ptr * sizeof(struct intrace_info)))->domain = domain;
+    ((struct intrace_info*) (intracer->buff + intracer->ptr * sizeof(struct intrace_info)))->desc = desc;
+    ((struct intrace_info*) (intracer->buff + intracer->ptr * sizeof(struct intrace_info)))->cpu = smp_processor_id();
     INTRACE_BUFFER_ADVANCE();
     spin_unlock(&intracer->lock);
 
