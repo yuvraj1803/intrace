@@ -7,15 +7,18 @@
 #include <linux/fs.h>
 #include <linux/kernel.h>
 #include <linux/seq_file.h>
+#include <linux/time.h>
+#include <linux/ktime.h>
+#include <linux/irq.h>
+#include <linux/irqdesc.h>
+#include <linux/irqdomain.h>
 
 #include <asm/uaccess.h>
+
 
 #define INTRACE_BUFFER_NR_PAGES              1
 #define INTRACE_BUFFER_RING_SIZE             (INTRACE_BUFFER_NR_PAGES * PAGE_SIZE)
 #define INTRACE_BUFFER_NR_ENTRIES            (INTRACE_BUFFER_RING_SIZE / sizeof(struct intrace_info))
-
-#define INTRACE_BUFFER_ADVANCE()                                     (intracer->ptr = (intracer->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intracer->ptr + 1)
-#define DEFINE_INTRACE_DEBUGFS_FILE(_name, _data, _mode, _fops)      {.name=(const char*)_name, .data=(void*)_data, .mode=(umode_t)_mode, .fops=(struct file_operations*)_fops, .file=(struct dentry*)NULL}
 
 static bool intrace_enabled;
 static struct intrace_tracer* intracer;
@@ -33,14 +36,62 @@ void enable_intrace(void){
     intrace_enabled = true;
 }
 
-static int __intrace_show(void){
+#define INTRACE_SHOW_IRQ_SINCE_START        "#%llu "
+#define INTRACE_SHOW_IRQ_SINCE_START_ARG    intrace_interrupt_since_start
+
+#define INTRACE_SHOW_TIMESTAMP              "[%llu.%6llu] "
+#define INTRACE_SHOW_TIMESTAMP_ARG          timestamp/1000000000, timestamp%1000000
+
+#define INTRACE_SHOW_DOMAIN                 "DOMAIN: %s "
+#define INTRACE_SHOW_DOMAIN_ARG             info->domain->name
+
+#define INTRACE_SHOW_IRQNR                  "IRQ: %u "
+#define INTRACE_SHOW_IRQNR_ARG              info->desc->irq_data.irq
+
+#define INTRACE_SHOW_HWIRQNR                "HWIRQ: %lu "
+#define INTRACE_SHOW_HWIRQNR_ARG            info->desc->irq_data.hwirq
+
+#define INTRACE_SHOW_IRQCHIP                "IRQCHIP: %s "
+#define INTRACE_SHOW_IRQCHIP_ARG            info->desc->irq_data.chip->name
+
+#define INTRACE_FMT         INTRACE_SHOW_IRQ_SINCE_START \
+                            INTRACE_SHOW_TIMESTAMP \
+                            INTRACE_SHOW_IRQNR \
+                            INTRACE_SHOW_HWIRQNR \
+                            INTRACE_SHOW_DOMAIN \
+                            INTRACE_SHOW_IRQCHIP \
+                             "\n"
+
+#define INTRACE_FMT_ARGS    INTRACE_SHOW_IRQ_SINCE_START_ARG, \
+                            INTRACE_SHOW_TIMESTAMP_ARG, \
+                            INTRACE_SHOW_IRQNR_ARG, \
+                            INTRACE_SHOW_HWIRQNR_ARG, \
+                            INTRACE_SHOW_DOMAIN_ARG, \
+                            INTRACE_SHOW_IRQCHIP_ARG
+static unsigned long long intrace_interrupt_since_start;
+
+static int __intrace_show(struct seq_file* m){
+
+    struct intrace_info* info = intrace_buf_get();
+
+    if(!info) return 0;
+    if(!info->domain || !info->desc) return 0;
+
+    unsigned long long timestamp;
+    timestamp = ktime_get_boottime_ns();
+    intrace_interrupt_since_start++;
+    // do not touch these variables above. The macros below use them.
+
+    seq_printf(m, INTRACE_FMT, INTRACE_FMT_ARGS);
+
     return 0;
 }
 
 
 void* intrace_start(struct seq_file *m, loff_t *pos){
 
-    if(!is_intrace_enabled()) return NULL;  
+    if(!is_intrace_enabled()) return NULL;
+
     return pos;
 }
 
@@ -55,7 +106,7 @@ void* intrace_next(struct seq_file *m, void *v, loff_t *pos){
 
 int intrace_show(struct seq_file *m, void *v){
 
-    return __intrace_show();
+    return __intrace_show(m);
 
 }
 
@@ -68,6 +119,8 @@ static struct seq_operations intrace_trace_seq_ops = {
 };
 
 int intrace_trace_open(struct inode * inode, struct file *file){
+
+    intrace_interrupt_since_start = 0;
 
     return seq_open(file, &intrace_trace_seq_ops);
 }
@@ -121,6 +174,8 @@ ssize_t intrace_state_read(struct file *file , char __user * ubuf, size_t cnt, l
 static struct file_operations intrace_state_fops = {
     .read = intrace_state_read,
 };
+
+#define DEFINE_INTRACE_DEBUGFS_FILE(_name, _data, _mode, _fops)      {.name=(const char*)_name, .data=(void*)_data, .mode=(umode_t)_mode, .fops=(struct file_operations*)_fops, .file=(struct dentry*)NULL}
 
 static struct intrace_debugfs_file intrace_debugfs_files[] = {
     DEFINE_INTRACE_DEBUGFS_FILE("state", 0, 400, &intrace_state_fops),
