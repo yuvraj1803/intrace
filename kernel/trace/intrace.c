@@ -43,7 +43,7 @@ void enable_intrace(void){
 #define INTRACE_SHOW_TIMESTAMP_ARG          timestamp/1000000000, timestamp%1000000
 
 #define INTRACE_SHOW_CPU                    "CPU: %d "
-#define INTRACE_SHOW_CPU_ARG                info->cpu
+#define INTRACE_SHOW_CPU_ARG                info->cpu   
 
 #define INTRACE_SHOW_DOMAIN                 "DOMAIN: %s "
 #define INTRACE_SHOW_DOMAIN_ARG             info->domain->name
@@ -263,7 +263,6 @@ intrace_fail:
 out:
     return 0;
 }
-
 late_initcall(intrace_init)
 
 #define INTRACE_BUFFER_ADVANCE()   (intracer->ptr = (intracer->ptr == INTRACE_BUFFER_NR_ENTRIES) ? 0 : intracer->ptr + 1)
@@ -297,6 +296,3 @@ out:
     return info;
 
 }
-
-
-

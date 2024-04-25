@@ -1169,6 +1169,12 @@ config HIST_TRIGGERS_DEBUG
 
           If unsure, say N.
 
+config HAVE_INTERRUPT_TRACER
+	bool "Enable interrupt tracer (intrace)"
+	help
+	  Enable interrupt tracing feature (intrace).
+
+
 source "kernel/trace/rv/Kconfig"
 
 endif # FTRACE

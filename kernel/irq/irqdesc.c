@@ -729,8 +729,10 @@ int generic_handle_domain_irq(struct irq_domain *domain, unsigned int hwirq)
 {
 
 	struct irq_desc* desc = irq_resolve_mapping(domain, hwirq);
-	
+
+#ifdef CONFIG_HAVE_INTERRUPT_TRACER
 	if(is_intrace_enabled()) intrace_buf_put(domain, desc);
+#endif
 
 	return handle_irq_desc(desc);
 }

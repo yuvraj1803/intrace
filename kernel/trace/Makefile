@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
 
-obj-y += intrace.o
-
 # Do not instrument the tracer itself:
 
 ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
@@ -111,5 +109,7 @@ obj-$(CONFIG_FPROBE_EVENTS) += trace_fprobe.o
 
 obj-$(CONFIG_TRACEPOINT_BENCHMARK) += trace_benchmark.o
 obj-$(CONFIG_RV) += rv/
+
+obj-$(CONFIG_HAVE_INTERRUPT_TRACER) += intrace.o
 
 libftrace-y := ftrace.o
